@@ -1,3 +1,1 @@
 # MovieMate
-
-## Testing commits
