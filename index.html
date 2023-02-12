@@ -24,28 +24,22 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="#show-time">Watch From Home</a>
+                <a class="nav-link" href="#trending">Trending Movies</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#about">Shows Near You</a>
+                <a class="nav-link" href="#shows-near">Shows Near You</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#about">Movie Quotes</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#about">Movie Blogs</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#about">About Us</a>
-              </li>
+              <form class="d-flex" role="search">
+                <input class="form-control me-2" id="searchBox" type="search" placeholder="Search Movies" aria-label="Search">
+              </form>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search Movies" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+
           </div>
         </div>
       </nav>
+    <main>
+      <div id="result"></div>
+    </main>
     <script src="https://kit.fontawesome.com/f1991e4499.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
