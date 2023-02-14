@@ -155,3 +155,5 @@ function getClassByRate(vote) {
         return "red";
     }
 };
+
+

@@ -43,8 +43,12 @@ body {
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
     position: absolute;
-    background-color: aliceblue;
-    max-height: 50%;
+    background-color: black;
+    max-height: 70%;
+    overflow: auto;
+    border-radius: 6px;
+    left: 0%;
+    right: 0%;
 }
 
 .resultRow {
