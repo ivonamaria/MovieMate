@@ -15,30 +15,30 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#"><img class="logo" src="./images/svg-gobbler 1.svg" alt="movie-mate logo">Movie Mate</a>
+          <a class="navbar-brand" href="#"><img class="logo" src="./images/white-logo.svg" alt="movie-mate logo">Movie Mate</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="#trending">Trending Movies</a>
+                <a class="nav-link" href="#content">Trending Movies</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#shows-near">Shows Near You</a>
               </li>
-              <form class="d-flex" role="search">
-                <input class="form-control me-2" id="searchBox" type="search" placeholder="Search Movies" aria-label="Search">
-              </form>
             </ul>
-
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" id="searchBox" type="search" placeholder="Search Movies From IMDB" aria-label="Search">
+            </form> 
           </div>
         </div>
       </nav>
     <main>
-      <div id="result"></div>
+      <div id="result"> </div>
+      <div id="content"></div>
     </main>
     <script src="https://kit.fontawesome.com/f1991e4499.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
