@@ -115,8 +115,3 @@ img {
     width: 100%;
 
 }
-
-#result:active {
-    width: 0px;
-    overflow: hidden;
-}
