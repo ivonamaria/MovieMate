@@ -1,12 +1,183 @@
-//IMDB results display.
+//API from TMDB API
+
+
+
+const API_KEY = '11d709982d73ca3b61226bf899b78a2b';
+const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+const API_URL = 'https://api.themoviedb.org/3/search/movie?api_key=11d709982d73ca3b61226bf899b78a2b'
+
+const searchButton = document.querySelector('#search');
+const input = document.querySelector('#inputMovie');
+const movieShow = document.querySelector('#results-nowshowing')
+const moviesContainer = document.querySelector('#movie-container')
+
+
+//Trailer video created url path
+function createURL(path) {
+const API_URL = `https://api.themoviedb.org/3${path}?api_key=11d709982d73ca3b61226bf899b78a2b`
+return API_URL;
+}
+
+function requestMovies(API_URL, onComplete, onError) {
+	fetch(API_URL)
+.then((res) => res.json())
+.then(onComplete)
+.catch((onError) => {
+});
+}
+
+function movieSegment(movies) {
+	return movies.map((movie) => {
+	if (movie.poster_path){
+		return `<img 
+		src=${IMG_URL + movie.poster_path} 
+		data-movie-id=${movie.id}/>`;
+	}
+	  })
+}
+
+// movie div created
+function movieContainer(movies, title = '',) {
+	const movieEl = document.createElement('div');
+	movieEl.setAttribute('class', 'movie');
+
+	const moviePattern = `
+	<h2>${title}</2>
+	<section class="section">
+  ${movieSegment(movies)}
+</section>
+<div class="content">
+<p id="content-close">X</p>
+</div>
+	`;
+
+	movieEl.innerHTML = moviePattern ;
+	return movieEl;
+}
+
+function searchMovies(data) {
+//data.results[] - how we get the movies to show
+movieShow.innerHTML = '' //clears/replaces the search value
+const movies = data.results;
+const movieBlock = movieContainer(movies);
+movieShow.appendChild(movieBlock);
+}
+
+function renderMovies(data) {
+const movies = data.results;
+const movieBlock = movieContainer(movies, this.title);
+moviesContainer.appendChild(movieBlock);
+}
+
+function findMovie(value) {
+	const path = '/search/movie';
+	const url = createURL(path) + '&query=' + value;
+
+	requestMovies(url, searchMovies, handleError);
+}
+function upcomingMovies(value) {
+	const path = '/movie/upcoming';
+	const url = createURL(path) + '&query=' + value;
+
+	const render = renderMovies.bind({ title: 'UPCOMING MOVIES'});
+	requestMovies(url, render, handleError);
+}
+
+function popularMovies (value) {
+	const path = '/movie/popular';
+	const url = createURL(path) + '&query=' + value;
+
+	const render = renderMovies.bind({ title: 'POPULAR MOVIES'});
+	requestMovies(url, render, handleError);
+}
+
+findMovie('hobbit')
+upcomingMovies()
+popularMovies()
+
+function handleError(error) {
+	console.log('Error: ', error);
+}
+
+
+searchButton.onclick = function(e) {
+	e.preventDefault();
+	const value = input.value;
+
+	// used to fetch videos/movies
+	findMovie(value);
+input.value = '';
+console.log('Value: ', value);
+}
+
+function createIframe(video) {
+	const inframe = document.createElement('iframe');
+	inframe.src = `https://www.youtube.com/embed/${video.key}`
+	inframe.width = 360;
+	inframe.height = 315;
+	inframe.allowFullscreen = true;
+
+	return inframe;
+}
+
+function videoTemplate(data, content) {
+	// display movies
+	content.innerHTML = '<p id="content-close"><i class="fa-sharp fa-solid fa-xmark"></i></i></p>'
+	console.log('Videos: ', data);
+	const videos = data.results;
+	const length = videos.length > 4 ? 4 : videos.length;
+	const iframeContainer = document.createElement('div'); //container to store the videos
+	
+	for (let i = 0; i < videos.length; i++) {
+	
+		const video = videos[1]; // video
+		const iframe = createIframe(video);
+		iframeContainer.appendChild(iframe);
+		content.append(iframeContainer);
+	}
+}
+
+
+//Event Delegation
+document.onclick = function(event) {
+
+	const target = event.target;
+
+	if (target.tagName.toLowerCase() === 'img') {
+		const movieId = target.dataset.movieId;
+		console.log('Movie ID: ', movieId)
+		const section = event.target.parentElement; //section
+		const content = section.nextElementSibling; // content
+		content.classList.add('content-display');
+
+		if (target.id === 'content-close') {
+			const content = target.parentElement;
+			content.classList.remove('content-display');
+		}
+
+		const path = `/movie/${movieId}/videos`;
+		const API_URL = createURL(path);
+		//fetch movie videos
+		fetch(API_URL)
+		.then((res) => res.json())
+	.then((data) => videoTemplate(data, content))
+	.catch((error) => {
+	
+	console.log('Error ', error)
+});
+	}
+	
+
+}
+
+//IMDB results display. 
 
 var $input = document.getElementById('searchBox');
-var baseUrl = "https://sg.media-imdb.com/suggests/";
+var baseUrl = "http://sg.media-imdb.com/suggests/";
 var $result = document.getElementById('result');
 var body = document.getElementsByTagName('body');
 
 $input.addEventListener('keyup', function(){
-
 
 	//clearing blank spaces from input
 	var cleanInput = $input.value.replace(/\s/g, "");
@@ -47,9 +218,9 @@ $input.addEventListener('keyup', function(){
 		    		var destinationUrl;
 
 		    		if(category === "tt") {
-		    			destinationUrl = "https://www.imdb.com/title/" + result.d[i].id;
+		    			destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
 		    		} else {
-		    			destinationUrl = "https://www.imdb.com/name/" + result.d[i].id;
+		    			destinationUrl = "http://www.imdb.com/name/" + result.d[i].id;
 		    		}
 		    		
 		    		resultRow.setAttribute('href', destinationUrl);
@@ -90,70 +261,7 @@ $input.addEventListener('keyup', function(){
 		    		$("#result").append(resultRow);
 		    	}
 		    }
+		
 		});
 	}
 });
-
-//Trending Movies TMDB API
-
-const movieURL = "https://api.themoviedb.org/3/trending/all/week?api_key=11d709982d73ca3b61226bf899b78a2b";
-const movieImages = "https://image.tmdb.org/t/p/w500/";
-const movieSearch = "https://api.themoviedb.org/3/search/movie?&api_key=11d709982d73ca3b61226bf899b78a2b&query=";
-
-//Display results in browser
-
-const main = document.getElementById("content");
-
-getMovies(movieURL);
-
-async function getMovies(url) {
-    const resp = await fetch(url);
-    const respData = await resp.json();
-
-    console.log(respData);
-
-    showMovies(respData.results);
-}
-
-function showMovies(movies) {
-    // clear main
-    main.innerHTML = "";
-
-    movies.forEach((movie) => {
-        const { poster_path, title, vote_average, overview } = movie;
-
-        const movieEl = document.createElement("div");
-        movieEl.classList.add("movie");
-
-        movieEl.innerHTML = `
-            <img
-                src="${movieImages + poster_path}"
-                alt="${title}"
-            />
-            <div class="movie-info">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(
-                    vote_average
-                )}">${vote_average}</span>
-            </div>
-            <div class="overview">
-                <h3>Overview:</h3>
-                ${overview}
-            </div>
-        `;
-
-        main.appendChild(movieEl);
-    });
-}
-
-function getClassByRate(vote) {
-    if (vote >= 8) {
-        return "green";
-    } else if (vote >= 5) {
-        return "orange";
-    } else {
-        return "red";
-    }
-};
-
-
