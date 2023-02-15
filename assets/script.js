@@ -10,11 +10,11 @@ const searchButton = document.querySelector('#search');
 const input = document.querySelector('#inputMovie');
 const movieShow = document.querySelector('#results-nowshowing')
 const moviesContainer = document.querySelector('#movie-container')
-
+const main = document.querySelector('#favourites')
 
 //Trailer video created url path
 function createURL(path) {
-const API_URL = `https://api.themoviedb.org/3${path}?api_key=11d709982d73ca3b61226bf899b78a2b`
+const API_URL = `https://api.themoviedb.org/3${path}?api_key=11d709982d73ca3b61226bf899b78a2b&language=en-US&sort_by=created_at.asc&page=1`
 return API_URL;
 }
 
@@ -69,17 +69,32 @@ const movieBlock = movieContainer(movies, this.title);
 moviesContainer.appendChild(movieBlock);
 }
 
+function renderFavourites(data) {
+	const movies = data.results;
+	const movieBlock = movieContainer(movies, this.title);
+	main.appendChild(movieBlock);
+}
+
 function findMovie(value) {
 	const path = '/search/movie';
 	const url = createURL(path) + '&query=' + value;
 
 	requestMovies(url, searchMovies, handleError);
 }
-function upcomingMovies(value) {
+function upcomingMovies() {
 	const path = '/movie/upcoming';
-	const url = createURL(path) + '&query=' + value;
+	const url = createURL(path) ;
 
 	const render = renderMovies.bind({ title: 'UPCOMING MOVIES'});
+	requestMovies(url, render, handleError);
+}
+
+function favourites() {
+	// const path = `/account/${account_id}/favorite/movie`;
+	const path = `/favorite/movie`;
+	const url = createURL(path);
+
+	const render = renderFavourites.bind({title: 'FAVOURITES'});
 	requestMovies(url, render, handleError);
 }
 
@@ -91,6 +106,7 @@ function popularMovies (value) {
 	requestMovies(url, render, handleError);
 }
 
+favourites()
 findMovie('hobbit')
 upcomingMovies()
 popularMovies()

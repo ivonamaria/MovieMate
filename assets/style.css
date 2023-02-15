@@ -29,9 +29,17 @@ body {
     color: black;
 }
 
-#favourites{
+/* #favourites{
 	display: flex;
-	gap: 2em;
+	flex-direction: column;
+	gap: 3em;
+} */
+
+@media (min-width: 60em){
+	/* #favourites {
+		flex-direction: row;
+
+	} */
 }
 
 #result {
