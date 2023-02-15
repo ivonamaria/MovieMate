@@ -152,9 +152,9 @@ function videoTemplate(data, content) {
 	const length = videos.length > 4 ? 4 : videos.length;
 	const iframeContainer = document.createElement('div'); //container to store the videos
 	
-	for (let i = 0; i < videos.length; i++) {
+	for (let i = 0; i < 1; i++) {
 	
-		const video = videos[1]; // video
+		const video = videos[0]; // video
 		const iframe = createIframe(video);
 		iframeContainer.appendChild(iframe);
 		content.append(iframeContainer);
