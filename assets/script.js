@@ -152,9 +152,9 @@ function videoTemplate(data, content) {
 	const length = videos.length > 4 ? 4 : videos.length;
 	const iframeContainer = document.createElement('div'); //container to store the videos
 	
-	for (let i = 0; i < videos.length; i++) {
+	for (let i = 0; i < 1; i++) {
 	
-		const video = videos[1]; // video
+		const video = videos[0]; // video
 		const iframe = createIframe(video);
 		iframeContainer.appendChild(iframe);
 		content.append(iframeContainer);
@@ -296,3 +296,67 @@ $input.addEventListener('keyup', function(){
 		});
 	}
 });
+
+//Trending Movies TMDB API
+
+const movieURL = "https://api.themoviedb.org/3/trending/all/week?api_key=11d709982d73ca3b61226bf899b78a2b";
+const movieImages = "https://image.tmdb.org/t/p/w500/";
+const movieSearch = "https://api.themoviedb.org/3/search/movie?&api_key=11d709982d73ca3b61226bf899b78a2b&query=";
+
+//Display results in browser
+
+const main = document.getElementById("content");
+
+getMovies(movieURL);
+
+async function getMovies(url) {
+    const resp = await fetch(url);
+    const respData = await resp.json();
+
+    console.log(respData);
+
+    showMovies(respData.results);
+}
+
+function showMovies(movies) {
+    // clear main
+    main.innerHTML = "";
+
+    movies.forEach((movie) => {
+        const { poster_path, title, vote_average, overview } = movie;
+
+        const movieEl = document.createElement("div");
+        movieEl.classList.add("movie");
+
+        movieEl.innerHTML = `
+            <img
+                src="${movieImages + poster_path}"
+                alt="${title}"
+            />
+            <div class="movie-info">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(
+                    vote_average
+                )}">${vote_average}</span>
+            </div>
+            <div class="overview">
+                <h3>Overview:</h3>
+                ${overview}
+            </div>
+        `;
+
+        main.appendChild(movieEl);
+    });
+}
+
+function getClassByRate(vote) {
+    if (vote >= 8) {
+        return "green";
+    } else if (vote >= 5) {
+        return "orange";
+    } else {
+        return "red";
+    }
+};
+
+
