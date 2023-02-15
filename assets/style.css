@@ -72,6 +72,7 @@ h3 {
 	color: white;
 }
 
+
 @media screen and (max-width: 768px) {
     .resultRow {
         width: 100% !important;
@@ -103,6 +104,7 @@ img:hover {
 	transition: transform 0.5s ease-out;
 	
 }
+
 
 #results-nowshowing {
 	margin-top: 20px;
