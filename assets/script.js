@@ -11,6 +11,30 @@ const input = document.querySelector('#inputMovie');
 const movieShow = document.querySelector('#results-nowshowing')
 const moviesContainer = document.querySelector('#movie-container')
 
+const quotesEl = document.querySelector('#quotes')
+const nextQuoteEl = document. querySelector('#nextQuote')
+
+function quote() {
+	fetch("https://api.api-ninjas.com/v1/quotes", {
+	  method: "GET",
+	  headers: { "X-Api-Key": "u12WMyDGHr9csYRBllF65A==cmlxJv37WKUgXjXz" },
+	})
+	  .then((res) => res.json())
+	  .then((quote) => {
+		let generatedQuote = quote[0].quote;
+		let generatedAuthor = quote[0].author;
+		// let getAuthor = quote[0].author;
+		
+		console.log(quote);
+		quotesEl.innerHTML = generatedQuote;
+	  });
+  }
+
+//   const author = document.createElement('p');
+//   author.textContent = "Author: ", + quote[0].author;
+//   quotesEl.append(author);
+
+
 
 //Trailer video created url path
 function createURL(path) {
@@ -169,6 +193,13 @@ document.onclick = function(event) {
 	
 
 }
+
+// allows user to click the button for next quote
+nextQuoteEl.addEventListener("click", function (event) {
+	event.preventDefault();
+	quote();
+  });
+  
 
 //IMDB results display. 
 

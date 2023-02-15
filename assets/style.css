@@ -67,6 +67,10 @@ body {
 	line-height: 1.2em;
 }
 
+h3 {
+	text-transform: uppercase;
+	color: white;
+}
 
 @media screen and (max-width: 768px) {
     .resultRow {
