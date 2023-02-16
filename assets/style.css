@@ -22,6 +22,9 @@ body {
 	font-size: 20px;
 }
 
+.container-fluid {
+	height: 120px;
+}
 /* logo style */
 
 .logo {
@@ -32,7 +35,7 @@ body {
 span {
 	text-transform: uppercase;
 	font-size: 22px;
-	
+	padding: 10px;
 	transition: transform 0.5s ease-out;
 	transition: color 3.s ;
 }
@@ -41,6 +44,16 @@ span:hover {
 	color:#9c4754;
 
 }
+
+/* logo hover */
+
+img:hover {
+	margin-left: 0 40px;
+	transform: scale(1.2);
+	cursor: pointer;
+	transition: transform 0.5s ease-out;
+}
+
 /* nav-bar color style properties */
 
 .navbar-toggler, .nav-link {
@@ -165,17 +178,6 @@ section img {
 	padding: 20px 10px;
 	z-index: 1;
 }
-
-/* As image is hovered, its ,argin is increased and covers the brand image,
-once fixed we can implement this */
-
-/* img:hover {
-	margin-left: 0 40px;
-	transform: scale(1.2);
-	cursor: pointer;
-	transition: transform 0.5s ease-out;
-} */
-
 
 #results-nowshowing {
 	margin-top: 20px;
