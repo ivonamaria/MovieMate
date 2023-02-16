@@ -82,12 +82,6 @@ function searchMovies(data) {
   const movieBlock = movieContainer(movies);
   movieShow.appendChild(movieBlock);
 }
-// const titleElement = document.createElement('h2');
-// 	const titleText = document.createTextNode('');
-// 	titleElement.appendChild(titleText);
-// 	titleElement.style.color = 'red';
-// 	titleElement.style.fontSize = '24px';
-
 
 // Renders a list of movies in the movies container
 function renderMovies(data) {
