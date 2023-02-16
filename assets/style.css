@@ -62,6 +62,11 @@ span:hover {
     color: rgb(23, 23, 23);
 }
 
+#favourites {
+	display: flex;
+	gap: 3em;
+	}
+
 /* search button styles */
 
 .btn-success {
@@ -75,6 +80,7 @@ span:hover {
     background-color: #812e3b;
     border-color: rgb(21, 21, 21)
 }
+
 
 /* IMDb search results styles */
 

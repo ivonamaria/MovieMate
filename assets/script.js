@@ -1,96 +1,79 @@
-// API key and URL for The Movie Database (TMDb)
+//API from TMDB API
+
 const API_KEY = '11d709982d73ca3b61226bf899b78a2b';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const API_URL = 'https://api.themoviedb.org/3/search/movie?api_key=11d709982d73ca3b61226bf899b78a2b'
 
-// DOM elements
 const searchButton = document.querySelector('#search');
 const input = document.querySelector('#inputMovie');
 const movieShow = document.querySelector('#results-nowshowing')
 const moviesContainer = document.querySelector('#movie-container')
+const main = document.querySelector('#favourites')
 
-// Elements for random quotes section
-const quotesEl = document.querySelector('#quotes')
-const nextQuoteEl = document. querySelector('#nextQuote')
-
-// Fetches a random quote from an API and displays it on the page
-function quote() {
-  fetch("https://api.api-ninjas.com/v1/quotes", {
-    method: "GET",
-    headers: { "X-Api-Key": "u12WMyDGHr9csYRBllF65A==cmlxJv37WKUgXjXz" },
-  })
-  .then((res) => res.json())
-  .then((quote) => {
-    let generatedQuote = quote[0].quote;
-    let generatedAuthor = quote[0].author;
-    quotesEl.innerHTML = `"${generatedQuote}" - ${generatedAuthor}`;
-  });
-}
-
-//displays a random quote 
-quote('')
-
-// Creates a full API URL using the given path and API key
+//Trailer video created url path
 function createURL(path) {
-  const API_URL = `https://api.themoviedb.org/3${path}?api_key=11d709982d73ca3b61226bf899b78a2b`
-  return API_URL;
+const API_URL = `https://api.themoviedb.org/3${path}?api_key=11d709982d73ca3b61226bf899b78a2b&language=en-US&sort_by=created_at.asc&page=1`
+return API_URL;
 }
 
-// Sends a request to the TMDb API with the given URL and handles the response
 function requestMovies(API_URL, onComplete, onError) {
-  fetch(API_URL)
-    .then((res) => res.json())
-    .then(onComplete)
-    .catch((onError) => {
-    });
+	fetch(API_URL)
+.then((res) => res.json())
+.then(onComplete)
+.catch((onError) => {
+});
 }
 
-// Creates the HTML for a movie segment, which is a poster image for a movie with the movie's ID as a data attribute
 function movieSegment(movies) {
-  return movies.map((movie) => {
-    if (movie.poster_path){
-      return `<img 
-      src=${IMG_URL + movie.poster_path} 
-      data-movie-id=${movie.id}/>`;
-    }
-  })
+	return movies.map((movie) => {
+	if (movie.poster_path){
+		return `<img 
+		src=${IMG_URL + movie.poster_path} 
+		data-movie-id=${movie.id} data-movie-url=${movie.poster_path}>`;
+	}
+	  })
 }
 
-// Creates the HTML for a movie container, which includes a title, a section for movie segments, and a content section for displaying videos
-function movieContainer(movies, title = '') {
-  const movieEl = document.createElement('div');
-  movieEl.setAttribute('class', 'movie');
+// movie div created
+function movieContainer(movies, title = '',) {
+	const movieEl = document.createElement('div');
+	movieEl.setAttribute('class', 'movie');
 
-  const moviePattern = `
-    <h2>${title}</2>
-    <section class="section">
-      ${movieSegment(movies)}
-    </section>
-    <div class="content">
-      <p id="content-close">X</p>
-    </div>
-  `;
+	const moviePattern = `
+	<h2>${title}</2>
+	<section class="section">
+  ${movieSegment(movies)}
+</section>
+<div class="content">
+<p id="content-close">X</p>
+</div>
+	`;
 
-  movieEl.innerHTML = moviePattern ;
-  return movieEl;
+	movieEl.innerHTML = moviePattern ;
+	return movieEl;
 }
 
-// Handles the response from a movie search, and displays the results in the "now showing" section
 function searchMovies(data) {
-  movieShow.innerHTML = '' //clears/replaces the search value
-  const movies = data.results;
-  const movieBlock = movieContainer(movies);
-  movieShow.appendChild(movieBlock);
+//data.results[] - how we get the movies to show
+movieShow.innerHTML = '' //clears/replaces the search value
+const movies = data.results;
+const movieBlock = movieContainer(movies);
+movieShow.appendChild(movieBlock);
 }
 
-// Renders a list of movies in the movies container
 function renderMovies(data) {
 const movies = data.results;
-
 const movieBlock = movieContainer(movies, this.title);
 moviesContainer.appendChild(movieBlock);
 }
 
+function renderFavourites(title) {
+	const favourites = JSON.parse(localStorage.getItem('favourites'))
+	if(favourites){
+		const movieBlock = movieContainer(favourites, title);
+		main.appendChild(movieBlock);
+	}
+}
 
 function findMovie(value) {
 	const path = '/search/movie';
@@ -106,6 +89,10 @@ function upcomingMovies(value) {
 	requestMovies(url, render, handleError);
 }
 
+function favourites() {
+	renderFavourites.bind({title: 'FAVOURITES'});
+}
+
 function popularMovies (value) {
 	const path = '/movie/popular';
 	const url = createURL(path) + '&query=' + value;
@@ -114,6 +101,7 @@ function popularMovies (value) {
 	requestMovies(url, render, handleError);
 }
 
+renderFavourites('FAVOURITES')
 findMovie('hobbit')
 upcomingMovies()
 popularMovies()
@@ -121,7 +109,6 @@ popularMovies()
 function handleError(error) {
 	console.log('Error: ', error);
 }
-
 
 searchButton.onclick = function(e) {
 	e.preventDefault();
@@ -148,15 +135,28 @@ function videoTemplate(data, content) {
 	content.innerHTML = '<p id="content-close"><i class="fa-sharp fa-solid fa-xmark"></i></i></p>'
 	console.log('Videos: ', data);
 	const videos = data.results;
+	const length = videos.length > 4 ? 4 : videos.length;
 	const iframeContainer = document.createElement('div'); //container to store the videos
 	
-	for (let i = 0; i < 1; i++) {
+	for (let i = 0; i < videos.length; i++) {
 	
-		const video = videos[0]; // video
+		const video = videos[1]; // video
 		const iframe = createIframe(video);
 		iframeContainer.appendChild(iframe);
 		content.append(iframeContainer);
 	}
+}
+
+function storeSelectedMovie(dataset){
+	console.log(dataset);
+	let storedUrls = JSON.parse(localStorage.getItem('favourites'))
+	if(!storedUrls) {
+		storedUrls = []
+	}
+	storedUrls.push({ id: dataset.movieId, poster_path: dataset.movieUrl })
+	
+	storedUrls = JSON.stringify(storedUrls)
+	localStorage.setItem('favourites', storedUrls)
 }
 
 
@@ -164,13 +164,16 @@ function videoTemplate(data, content) {
 document.onclick = function(event) {
 
 	const target = event.target;
-
+	console.log(target);
 	if (target.tagName.toLowerCase() === 'img') {
 		const movieId = target.dataset.movieId;
 		console.log('Movie ID: ', movieId)
 		const section = event.target.parentElement; //section
 		const content = section.nextElementSibling; // content
 		content.classList.add('content-display');
+
+		// store in localhost
+		storeSelectedMovie(target.dataset)
 
 		if (target.id === 'content-close') {
 			const content = target.parentElement;
@@ -182,7 +185,10 @@ document.onclick = function(event) {
 		//fetch movie videos
 		fetch(API_URL)
 		.then((res) => res.json())
-	.then((data) => videoTemplate(data, content))
+	.then((data) => {
+		console.log(data);
+		videoTemplate(data, content)
+	})
 	.catch((error) => {
 	
 	console.log('Error ', error)
@@ -191,13 +197,6 @@ document.onclick = function(event) {
 	
 
 }
-
-// allows user to click the button for next quote
-nextQuoteEl.addEventListener("click", function (event) {
-	event.preventDefault();
-	quote();
-  });
-  
 
 //IMDB results display. 
 
@@ -294,67 +293,3 @@ $input.addEventListener('keyup', function(){
 		});
 	}
 });
-
-//Trending Movies TMDB API
-
-const movieURL = "https://api.themoviedb.org/3/trending/all/week?api_key=11d709982d73ca3b61226bf899b78a2b";
-const movieImages = "https://image.tmdb.org/t/p/w500/";
-const movieSearch = "https://api.themoviedb.org/3/search/movie?&api_key=11d709982d73ca3b61226bf899b78a2b&query=";
-
-//Display results in browser
-
-const main = document.getElementById("content");
-
-getMovies(movieURL);
-
-async function getMovies(url) {
-    const resp = await fetch(url);
-    const respData = await resp.json();
-
-    console.log(respData);
-
-    showMovies(respData.results);
-}
-
-function showMovies(movies) {
-    // clear main
-    main.innerHTML = "";
-
-    movies.forEach((movie) => {
-        const { poster_path, title, vote_average, overview } = movie;
-
-        const movieEl = document.createElement("div");
-        movieEl.classList.add("movie");
-
-        movieEl.innerHTML = `
-            <img
-                src="${movieImages + poster_path}"
-                alt="${title}"
-            />
-            <div class="movie-info">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(
-                    vote_average
-                )}">${vote_average}</span>
-            </div>
-            <div class="overview">
-                <h3>Overview:</h3>
-                ${overview}
-            </div>
-        `;
-
-        main.appendChild(movieEl);
-    });
-}
-
-function getClassByRate(vote) {
-    if (vote >= 8) {
-        return "green";
-    } else if (vote >= 5) {
-        return "orange";
-    } else {
-        return "red";
-    }
-};
-
-
