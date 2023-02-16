@@ -32,12 +32,12 @@ To view the code for the deployed application please use the following link: [Gi
 
 ![search bar taking you to external IMDb website](/images/Screenshot%202023-02-16%20at%2021.03.09.png)
 ![Movie Quotes Section](/images/Screenshot%202023-02-16%20at%2021.05.15.png)
-![Popular and Upcoming Movies](/images/Screenshot%202023-02-16%20at%2021.04.54.png)
+![Popular and Upcoming Movies](/images/Screenshot%202023-02-16%20at%2022.32.30.png)
 ![Trailer](/images/Screenshot%202023-02-16%20at%2021.04.31.png)
 
 # Presentation 
 
-If you would like to view our presentation clik the link - [Movie Mate Presentation](https://www.canva.com/design/DAFatSKms9c/JENMi08SayIBL8kU_lsLaw/view?utm_content=DAFatSKms9c&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
+If you would like to view our presentation click the link - [Movie Mate Presentation](https://www.canva.com/design/DAFatSKms9c/JENMi08SayIBL8kU_lsLaw/view?utm_content=DAFatSKms9c&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
 
 # Credits 
 
