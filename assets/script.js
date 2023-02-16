@@ -9,31 +9,10 @@ const input = document.querySelector('#inputMovie');
 const movieShow = document.querySelector('#results-nowshowing')
 const moviesContainer = document.querySelector('#movie-container')
 
-// Elements for random quotes section
-const quotesEl = document.querySelector('#quotes')
-const nextQuoteEl = document. querySelector('#nextQuote')
-
-// Fetches a random quote from an API and displays it on the page
-function quote() {
-  fetch("https://api.api-ninjas.com/v1/quotes", {
-    method: "GET",
-    headers: { "X-Api-Key": "u12WMyDGHr9csYRBllF65A==cmlxJv37WKUgXjXz" },
-  })
-  .then((res) => res.json())
-  .then((quote) => {
-    let generatedQuote = quote[0].quote;
-    let generatedAuthor = quote[0].author;
-    quotesEl.innerHTML = `"<i>${generatedQuote}</i>" - ${generatedAuthor}`;
-  });
-}
-
-//displays a random quote 
-quote('')
-
 // Creates a full API URL using the given path and API key
 function createURL(path) {
-  const API_URL = `https://api.themoviedb.org/3${path}?api_key=11d709982d73ca3b61226bf899b78a2b`
-  return API_URL;
+	const API_URL = `https://api.themoviedb.org/3${path}?api_key=11d709982d73ca3b61226bf899b78a2b`
+	return API_URL;
 }
 
 // Sends a request to the TMDb API with the given URL and handles the response
@@ -191,12 +170,6 @@ document.onclick = function(event) {
 	
 
 }
-
-// allows user to click the button for next quote
-nextQuoteEl.addEventListener("click", function (event) {
-	event.preventDefault();
-	quote();
-  });
   
 
 //IMDB results display. 
@@ -357,4 +330,34 @@ function getClassByRate(vote) {
     }
 };
 
+
+// Fetches a random quote from an API and displays it on the page
+function quote() {
+	fetch("https://api.api-ninjas.com/v1/quotes", {
+	method: "GET",
+	headers: { 
+		"X-Api-Key": "u12WMyDGHr9csYRBllF65A==cmlxJv37WKUgXjXz"
+	},
+	})
+	.then((res) => res.json())
+	.then((quote) => {
+	let generatedQuote = quote[0].quote;
+	let generatedAuthor = quote[0].author;
+	quotesEl.innerHTML = `"<i>${generatedQuote}</i>" - ${generatedAuthor}`;
+	});
+}
+
+//displays a random quote 
+	
+quote('')
+
+// Elements for random quotes section
+const quotesEl = document.querySelector('#quotes')
+const nextQuoteEl = document.querySelector('#nextQuote')
+
+// allows user to click the button for next quote
+nextQuoteEl.addEventListener("click", function (event) {
+	event.preventDefault();
+	quote();
+});
 
