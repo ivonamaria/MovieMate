@@ -27,4 +27,11 @@ To view the code for the deployed application please use the following link: Git
 
 # Screenshots
 
+## License
+The license used is MIT license
 
+## Features
+
+
+## Tests
+The app was tesed using open live server many times. 
