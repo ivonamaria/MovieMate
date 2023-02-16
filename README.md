@@ -1,6 +1,6 @@
-# MovieMate.
 
-# Overview
+
+# Movie Mate # Overview
 A personalised platform to stay updated on current and upcoming movies and stay ahead of the curve! 
 Bright up your inspiration with random movie quotes. 
 
@@ -46,10 +46,10 @@ Authors of the website application: Iwona Malkinska, Chaitanya Varma, Alexander 
 
 List of the things used in the platfrom project:
 
-##### https://getbootstrap.com/ - ••Bootstrap CSS Framework documentation.••
-##### https://api-ninjas.com/api/quotes - ••API documentation.•• 
-##### https://www.themoviedb.org/ - ••Trailer, Upcoming Movies etc. API documentation.•• 
-##### https://developer.mozilla.org/en-US/ - ••For various debugging/creating this README.••
+##### https://getbootstrap.com/ - Bootstrap CSS Framework documentation.
+##### https://api-ninjas.com/api/quotes - API documentation.
+##### https://www.themoviedb.org/ - Trailer, Upcoming Movies etc. API.
+##### https://developer.mozilla.org/en-US/ - For various debugging/creating this README.
 
 # License
 
