@@ -23,7 +23,7 @@ function quote() {
   .then((quote) => {
     let generatedQuote = quote[0].quote;
     let generatedAuthor = quote[0].author;
-    quotesEl.innerHTML = `"${generatedQuote}" - ${generatedAuthor}`;
+    quotesEl.innerHTML = `"<i>${generatedQuote}</i>" - ${generatedAuthor}`;
   });
 }
 
