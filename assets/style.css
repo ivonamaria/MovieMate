@@ -36,8 +36,7 @@ span {
 }
 
 span:hover {
-	color:rgb(68, 148, 72);
-	
+	color:#812e3b;
 
 }
 /* nav-bar color style properties */
@@ -47,7 +46,7 @@ span:hover {
 }
 
 .navbar-toggler, .nav-link:hover {
-    color: rgb(68, 148, 72) !important;
+    color: #812e3b !important;
 }
 
 .nav-link:hover {
@@ -67,13 +66,13 @@ span:hover {
 
 .btn-success {
 --bs-btn-color: #000;
---bs-btn-bg: #195508;
+--bs-btn-bg: #42000A;
 --bs-btn-border-color: #000000;
 }
 
 .btn:hover {
     color: rgb(21, 21, 21);
-    background-color: rgb(68, 148, 72);
+    background-color: #812e3b;
     border-color: rgb(21, 21, 21)
 }
 
