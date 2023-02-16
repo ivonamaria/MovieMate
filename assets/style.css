@@ -36,7 +36,7 @@ span {
 }
 
 span:hover {
-	color:#812e3b;
+	color:#9c4754;
 
 }
 /* nav-bar color style properties */
@@ -46,7 +46,7 @@ span:hover {
 }
 
 .navbar-toggler, .nav-link:hover {
-    color: #812e3b !important;
+    color: #9c4754 !important;
 }
 
 .nav-link:hover {
@@ -123,7 +123,7 @@ span:hover {
 
 h3 {
 	text-transform: uppercase;
-	color: rgb(220, 214, 214);
+	color: rgb(245, 241, 241);
 }
 
 #quotes {
@@ -204,7 +204,9 @@ img:hover {
 	flex-direction: column;
 }
 
-p {
+.text-light {
+	margin-top: 40px;
 	color: rgb(226, 223, 223);
-	font-size: 10px;
+	font-size: 14px;
+	opacity: 60%;
 }

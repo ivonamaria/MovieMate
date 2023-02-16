@@ -114,7 +114,6 @@ function popularMovies (value) {
 	requestMovies(url, render, handleError);
 }
 
-
 findMovie('hobbit')
 upcomingMovies()
 popularMovies()
