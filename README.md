@@ -21,17 +21,13 @@ APIs:
 
 # Links
 
-Please click here to view the MovieMate. - Website Application.
+Please [click here](https://ivonamaria.github.io/MovieMate/) to view the MovieMate. - Website Application.
 
-To view the code for the deployed application please use the following link: Github Repo
+To view the code for the deployed application please use the following link: [Github Repo](https://github.com/ivonamaria/MovieMate)
 
 # Screenshots
 
-## License
-The license used is MIT license
-
-## Features
-
-
-## Tests
-The app was tesed using open live server many times. 
+![search bar taking you to external IMDb website](/images/Screenshot%202023-02-16%20at%2021.03.09.png)
+![Movie Quotes Section](/images/Screenshot%202023-02-16%20at%2021.05.15.png)
+![Popular and Upcoming Movies](/images/Screenshot%202023-02-16%20at%2021.04.54.png)
+![Trailer](/images/Screenshot%202023-02-16%20at%2021.04.31.png)
