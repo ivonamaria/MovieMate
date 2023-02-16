@@ -15,7 +15,8 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#"><img class="logo" src="./images/white-logo.svg" alt="movie-mate logo">Movie Mate</a>
+          <a class="navbar-brand" href="#"><img class="logo" src="./images/white-logo.svg" alt="movie-mate logo">
+           <span>Movie Mate.</span> </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -41,7 +42,7 @@
       <div id="result"></div>
 
 
-      <!-- Hero Section --->
+      <!-- Hero Section with search button--->
   <div class="p-5 text-center bg-image">
     <div class="mask" style="background-color: rgba(197, 40, 12, 0.6, .0);">
       <div class="d-flex justify-content-center align-items-center h-100">
@@ -52,8 +53,8 @@
           <div class="input-group mb-3 ">
             <input type="text" class="form-control" placeholder="Search For Any Movie ..." id="inputMovie">
             <div class="input-group-append ">
-              <!--search button that will have the id search to connect with the onclick event function in index.js-->
-              <button id="search" class=" btn btn-success "  type="submit">Search</button>
+              <!--search button that will have the id search to connect with the onclick event function-->
+              <button id="search" class="btn btn-danger "  type="submit">Search</button>
       <img src="" alt="">
             </div>
           </div>
@@ -63,17 +64,18 @@
   </div>
   <div id="results-nowshowing"></div>
   <div id="movie-container"></div>
+  <div id="favourites"></div>
 <section>
   <div class="col-12 text-center" id="movie-quotes">
-    <h3 class=" mt-5">Your Movie Quotes!</h3>
+    <h3 class=" mt-5">Famous Movie Quotes</h3>
     <h4 id="quotes" class=" mt-3 mb-3 text-white"></h4>
-    <button id="nextQuote" class=" btn btn-success mt-4 mb-3" type="submit">Random Movie Quote</button>
+    <button id="nextQuote" class="btn btn-danger mt-4 mb-3" type="submit">Random Movie Quote</button>
   </div>
   </section>
+  
   <!-- Footer -->
-      <div class="text-center p-3" id="copyright-link">© 2023 Copyright:
-        <a class="text-white" href="
-        #">Iwona Malkinska, Chaitanya Varma, Alexander Osei</a>
+      <div class="text-center p-3" id="copyright-link">  
+        <a class="text-light" href="#">© 2023 Copyright: Iwona Malkinska, Chaitanya Varma, Alexander Osei</a>
       </div>
     </footer>
  
