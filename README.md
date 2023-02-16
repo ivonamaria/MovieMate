@@ -1,6 +1,7 @@
 
 
-# Movie Mate # Overview
+# Movie Mate 
+# Overview
 A personalised platform to stay updated on current and upcoming movies and stay ahead of the curve! 
 Bright up your inspiration with random movie quotes. 
 
