@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+	background-color: black !important;
 }
 
 
@@ -16,7 +17,8 @@ body {
     position: sticky !important;
     top: 0!important;
     z-index: 10;
-    background-color: rgb(21, 21, 21) !important;;
+    background-color: rgb(21, 21, 21) !important;
+	padding: 0%;
 	font-size: 20px;
 }
 
@@ -41,7 +43,7 @@ span:hover {
 }
 /* nav-bar color style properties */
 
- .navbar-toggler, .nav-link {
+.navbar-toggler, .nav-link {
     color: rgb(255, 255, 255) !important;
 }
 
@@ -50,7 +52,7 @@ span:hover {
 }
 
 .nav-link:hover {
- color:#f3f6f3
+	color:#f3f6f3
 }
 
 .me-2 {
@@ -71,9 +73,9 @@ span:hover {
 }
 
 .btn:hover {
-    color: rgb(21, 21, 21);
-    background-color: #812e3b;
-    border-color: rgb(21, 21, 21)
+    color: #000000;
+    background-color: #812e3b !important;
+    border-color: #812e3b;
 }
 
 /* IMDb search results styles */
@@ -95,10 +97,11 @@ span:hover {
 	color: rgb(221, 216, 216);
 }
 
-.resultRow:hover {
-	background-color: rgb(68, 148, 72) !important;
-	color: rgb(21, 21, 21);
-	transition: transform 0.5s;
+/* Reusults description hover */
+
+a:hover {
+	color: #812e3b;
+	text-decoration: none;
 }
 
 .poster {
@@ -131,7 +134,6 @@ h3 {
 	color: rgb(211, 207, 207);
 }
 
-
 @media screen and (max-width: 768px) {
     .resultRow {
         width: 100% !important;
@@ -156,12 +158,15 @@ section img {
 	z-index: 1;
 }
 
-img:hover {
+/* As image is hovered, its ,argin is increased and covers the brand image,
+once fixed we can implement this */
+
+/* img:hover {
 	margin-left: 0 40px;
 	transform: scale(1.2);
 	cursor: pointer;
 	transition: transform 0.5s ease-out;
-}
+} */
 
 
 #results-nowshowing {
@@ -186,27 +191,3 @@ img:hover {
 	display: block;
 }
 
-  /* h2 {
-    font-size: 2em;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 1em;
-	color:#f3f6f3;
-	font-weight: bold;
-} */
-
- 
-
-/* footer styles */
-
-.text-center {
-	display: flex;
-	flex-direction: column;
-}
-
-.text-light {
-	margin-top: 40px;
-	color: rgb(226, 223, 223);
-	font-size: 14px;
-	opacity: 60%;
-}
