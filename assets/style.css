@@ -54,6 +54,10 @@ img:hover {
 	transition: transform 0.5s ease-out;
 }
 
+button {
+	color: #fff;
+}
+
 /* nav-bar color style properties */
 
 .navbar-toggler, .nav-link {
