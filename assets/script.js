@@ -168,7 +168,7 @@ function movieContainer(movies, title = '') {
       ${movieSegment(movies)}
     </section>
     <div class="content">
-      <div id="content-close" type="search">X</div>
+      <div id="content-close" type="search"></div>
     </div>
   `;
 
@@ -215,7 +215,7 @@ function popularMovies (value) {
 	requestMovies(url, render, handleError);
 }
 
-findMovie('hobbit')
+findMovie('Avengers')
 upcomingMovies()
 popularMovies()
 
@@ -244,54 +244,69 @@ function createIframe(video) {
 	return inframe;
 }
 
-function videoTemplate(data, content) {
-	// display movies
-	content.innerHTML = '<p id="content-close"><i class="fa-sharp fa-solid fa-xmark"></i></i></p>'
-	console.log('Videos: ', data);
-	const videos = data.results;
-	const iframeContainer = document.createElement('div'); //container to store the videos
-	
-	for (let i = 0; i < 1; i++) {
-	
-		const video = videos[0]; // video
-		const iframe = createIframe(video);
-		iframeContainer.appendChild(iframe);
-		content.append(iframeContainer);
-	}
-}
+// Store reference to current open video section
+let currentVideoSection = null;
 
+function videoTemplate(data, content) {
+  // Remove current open video section (if it exists)
+  if (currentVideoSection) {
+    currentVideoSection.remove();
+  }
+
+  // Display movies
+  const videos = data.results;
+  const videoSection = document.createElement('div'); //container to store the videos
+  videoSection.className = 'video-section';
+
+  const closeButton = document.createElement('button');
+  closeButton.innerHTML = 'X';
+  closeButton.addEventListener('click', () => {
+    videoSection.remove();
+  });
+  videoSection.appendChild(closeButton);
+
+  const iframeContainer = document.createElement('div');
+  videos.forEach(video => {
+    const iframe = createIframe(video);
+    iframeContainer.appendChild(iframe);
+  });
+
+  videoSection.appendChild(iframeContainer);
+  content.appendChild(videoSection);
+
+  // Store reference to current open video section
+  currentVideoSection = videoSection;
+}
 
 //Event Delegation
 document.onclick = function(event) {
+  const target = event.target;
 
-	const target = event.target;
+  if (target.tagName.toLowerCase() === 'img') {
+    const movieId = target.dataset.movieId;
+    console.log('Movie ID: ', movieId)
+    const section = event.target.parentElement; //section
+    const content = section.nextElementSibling; // content
+    content.classList.add('content-display');
 
-	if (target.tagName.toLowerCase() === 'img') {
-		const movieId = target.dataset.movieId;
-		console.log('Movie ID: ', movieId)
-		const section = event.target.parentElement; //section
-		const content = section.nextElementSibling; // content
-		content.classList.add('content-display');
+    if (target.id === 'content-close') {
+      const content = target.parentElement;
+      content.classList.remove('content-display');
+    }
 
-		if (target.id === 'content-close') {
-			const content = target.parentElement;
-			content.classList.remove('content-display');
-		}
-
-		const path = `/movie/${movieId}/videos`;
-		const API_URL = createURL(path);
-		//fetch movie videos
-		fetch(API_URL)
-		.then((res) => res.json())
-	.then((data) => videoTemplate(data, content))
-	.catch((error) => {
-	
-	console.log('Error ', error)
-});
-	}
-	
-
+    const path = `/movie/${movieId}/videos`;
+    const API_URL = createURL(path);
+    //fetch movie videos
+    fetch(API_URL)
+      .then((res) => res.json())
+      .then((data) => videoTemplate(data, content))
+      .catch((error) => {
+        console.log('Error ', error)
+      });
+  }  
 }
+
+
 
 // Fetches a random quote from an API and displays it on the page
 function quote() {
@@ -323,3 +338,8 @@ nextQuoteEl.addEventListener("click", function (event) {
 	quote();
 });
 
+
+var requestOptions = {
+	method: 'GET',
+	redirect: 'follow'
+};
