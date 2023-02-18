@@ -130,6 +130,7 @@ const searchButton = document.querySelector('#search');
 const input = document.querySelector('#inputMovie');
 const movieShow = document.querySelector('#results-nowshowing')
 const moviesContainer = document.querySelector('#movie-container')
+const main = document.querySelector('#favourites')
 
 // Creates a full API URL using the given path and API key
 function createURL(path) {
@@ -158,7 +159,7 @@ function movieSegment(movies) {
 }
 
 // Creates the HTML for a movie container, which includes a title, a section for movie segments, and a content section for displaying videos
-function movieContainer(movies, title = '') {
+function movieContainer(movies, title = '',) {
   const movieEl = document.createElement('div');
   movieEl.setAttribute('class', 'movie');
 
@@ -192,6 +193,14 @@ const movieBlock = movieContainer(movies, this.title);
 moviesContainer.appendChild(movieBlock);
 }
 
+function renderFavourites(title) {
+	const favourites = JSON.parse(localStorage.getItem('favourites'))
+	if(favourites){
+		const movieBlock = movieContainer(favourites, title);
+		main.appendChild(movieBlock);
+	}
+}
+
 
 function findMovie(value) {
 	const path = '/search/movie';
@@ -207,6 +216,10 @@ function upcomingMovies(value) {
 	requestMovies(url, render, handleError);
 }
 
+function favourites() {
+	renderFavourites.bind({title: 'FAVOURITES'});
+}
+
 function popularMovies (value) {
 	const path = '/movie/popular';
 	const url = createURL(path) + '&query=' + value;
@@ -215,6 +228,7 @@ function popularMovies (value) {
 	requestMovies(url, render, handleError);
 }
 
+renderFavourites('FAVOURITES')
 findMovie('Avengers')
 upcomingMovies()
 popularMovies()
@@ -278,6 +292,19 @@ function videoTemplate(data, content) {
   currentVideoSection = videoSection;
 }
 
+//Store selected movies to favourites
+function storeSelectedMovie(dataset){
+	console.log(dataset);
+	let storedUrls = JSON.parse(localStorage.getItem('favourites'))
+	if(!storedUrls) {
+		storedUrls = []
+	}
+	storedUrls.push({ id: dataset.movieId, poster_path: dataset.movieUrl })
+	
+	storedUrls = JSON.stringify(storedUrls)
+	localStorage.setItem('favourites', storedUrls)
+}
+
 //Event Delegation
 document.onclick = function(event) {
   const target = event.target;
@@ -288,6 +315,9 @@ document.onclick = function(event) {
     const section = event.target.parentElement; //section
     const content = section.nextElementSibling; // content
     content.classList.add('content-display');
+
+	// store in localhost
+	storeSelectedMovie(target.dataset)
 
     if (target.id === 'content-close') {
       const content = target.parentElement;
