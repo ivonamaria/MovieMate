@@ -154,6 +154,11 @@ h3 {
 	color: rgb(245, 241, 241);
 }
 
+#favourites {
+	display: flex;
+	gap: 3em;
+	}
+
 #quotes {
 	font-size: 20px;
 	color: rgb(211, 207, 207);
