@@ -44,18 +44,16 @@ span {
 	transition: color 3.s ;
 }
 
-span:hover {
+span:hover, p:hover {
 	color:#9c4754;
-
 }
 
 /* logo hover */
 
 img:hover {
-	margin-left: 0 40px;
-	transform: scale(1.2);
+	transform: scale(1.1);
 	cursor: pointer;
-	transition: transform 0.5s ease-out;
+	transition: transform 0.2s ease-out;
 }
 
 button {
@@ -182,6 +180,7 @@ section {
 	width: 100%;
 	overflow-x: auto;
 }
+
 
 section img {
 	width: 200px;

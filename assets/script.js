@@ -124,6 +124,19 @@ $input.addEventListener("keyup", function () {
   }
 });
 
+// Elements for random quotes section
+const quotesEl = document.querySelector("#quotes");
+const nextQuoteEl = document.querySelector("#nextQuote");
+
+// Apply Tailwind classes to the elements
+quotesEl.classList.add("text-lg", "font-bold", "text-white", "my-4");
+nextQuoteEl.classList.add(
+  "bg-blue-500",
+  "text-white",
+  "px-4",
+  "py-2",
+  "rounded"
+);
 // API key and URL for The Movie Database (TMDb)
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 const API_URL =
@@ -142,67 +155,55 @@ function createURL(path) {
 }
 
 // Sends a request to the TMDb API with the given URL and handles the response
-function requestMovies(API_URL, onComplete, onError) {
+function requestMovies(API_URL, onComplete) {
   fetch(API_URL)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data); // Log the JSON results
       onComplete(data);
-    })
-    .catch((error) => {
-      console.log(error);
-      onError(error);
     });
 }
 
 function movieSegment(movie) {
-  const genres = movie.genres ? movie.genres.join(", ") : "";
-
   return `
-    <div class="bg-white rounded-md bg-gray-800 shadow-lg">
-      <div class="md:flex px-4 leading-none max-w-4xl">
-        <div class="flex-none">
+    <div>
+      <div class="flex px-4 leading-none max-w-4xl movie-card">
+        <div>
           <img
             src="${IMG_URL + movie.poster_path}"
             alt="${movie.title}"
-            class="h-72 w-56 rounded-md shadow-2xl transform -translate-y-4 border-4 border-gray-300 shadow-lg"
+            class="h-72 w-56"
           />
         </div>
-
-        <div class="flex-col text-gray-300">
-          <p class="pt-4 text-2xl font-bold">${movie.title}</p>
-          <hr class="hr-text" data-content="">
-          <div class="text-md flex justify-between px-4 my-2">
-            <span class="font-bold">${movie.runtime} | ${genres}</span>
-            <span class="font-bold">${movie.release_date}</span>
-          </div>
-          <p class="hidden md:block px-4 my-4 text-sm text-left">${
-            movie.overview
-          }</p>
-
-          <p class="flex text-md px-4 my-2">
-            Rating: ${movie.vote_average}/10 
-            <span class="font-bold px-2">|</span>
-            Mood: ${movie.mood}
-          </p>
-
-          <div class="text-xs">
-            <button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline">TRAILER</button>
-              
-            <button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline">IMDB</button>
-          </div>       
+        <div class="flex-col text-white">
+          <p class="pt-4 text-2xl font-bold text-center">${movie.title}</p>
+   
         </div>
       </div>
     </div>
   `;
 }
 
+// <div class="text-md flex justify-between px-4 my-2">
+//   <span class="font-bold">${movie.release_date}</span>
+// </div>
+// <p class="hidden md:block px-4 my-4 text-sm text-left">${
+//   movie.overview
+// }</p>
+// <p class="flex text-md px-4 my-2">
+//   Rating: ${movie.vote_average}/10
+// </p>
+// <div class="text-xs">
+//   <button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline">TRAILER</button>
+
+//   <button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline">IMDB</button>
+// </div>
+
 // Creates the HTML for a movie container, which includes a title and movie segments
 function movieContainer(movies, title = "") {
   const movieEl = document.createElement("div");
   movieEl.setAttribute("class", "movie");
 
-  const movieSegments = movies.map((movie) => movieSegment(movie)).join('');
+  const movieSegments = movies.map((movie) => movieSegment(movie)).join("");
 
   const moviePattern = `
     <h2>${title}</h2>
@@ -344,23 +345,6 @@ document.onclick = function (event) {
       });
   }
 };
-
-
-
-// Elements for random quotes section
-const quotesEl = document.querySelector("#quotes");
-const nextQuoteEl = document.querySelector("#nextQuote");
-
-// Apply Tailwind classes to the elements
-quotesEl.classList.add("text-lg", "font-bold", "text-white", "my-4");
-nextQuoteEl.classList.add(
-  "bg-blue-500",
-  "text-white",
-  "px-4",
-  "py-2",
-  "rounded"
-);
-
 
 // Fetches a random quote from an API and displays it on the page
 function quote() {
