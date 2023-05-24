@@ -1,5 +1,3 @@
-
-
 //IMDB results display
 
 var $input = document.getElementById("searchBox");
@@ -157,18 +155,17 @@ function requestMovies(API_URL, onComplete, onError) {
     });
 }
 
-// Creates the HTML for a movie segment, which is a movie card with poster image, title, description, rating, and release date
 function movieSegment(movie) {
   const genres = movie.genres ? movie.genres.join(", ") : "";
 
   return `
-    <div class="bg-white rounded-md shadow-lg">
+    <div class="bg-white rounded-md bg-gray-800 shadow-lg">
       <div class="md:flex px-4 leading-none max-w-4xl">
         <div class="flex-none">
           <img
             src="${IMG_URL + movie.poster_path}"
             alt="${movie.title}"
-            class="h-72 w-56 rounded-md shadow-2xl transform -translate-y-4 border-4 border-gray-300"
+            class="h-72 w-56 rounded-md shadow-2xl transform -translate-y-4 border-4 border-gray-300 shadow-lg"
           />
         </div>
 
@@ -200,7 +197,6 @@ function movieSegment(movie) {
   `;
 }
 
-
 // Creates the HTML for a movie container, which includes a title and movie segments
 function movieContainer(movies, title = "") {
   const movieEl = document.createElement("div");
@@ -221,8 +217,6 @@ function movieContainer(movies, title = "") {
   movieEl.innerHTML = moviePattern;
   return movieEl;
 }
-
-
 // Handles the response from a movie search, and displays the results in the "now showing" section
 function searchMovies(data) {
   movieShow.innerHTML = ""; //clears/replaces the search value
@@ -350,6 +344,8 @@ document.onclick = function (event) {
       });
   }
 };
+
+
 
 // Elements for random quotes section
 const quotesEl = document.querySelector("#quotes");
