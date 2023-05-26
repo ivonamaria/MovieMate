@@ -5,8 +5,8 @@
 /* main styles */
 * {
 	box-sizing: border-box;
-	background-color: black !important;
-	font-family: Nunito !important;
+	background-color: black;
+	font-family: Nunito;
 }
 
 /* <a> hover font style */

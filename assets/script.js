@@ -413,13 +413,7 @@ const nextQuoteEl = document.querySelector("#nextQuote");
 
 // Apply Tailwind classes to the elements
 quotesEl.classList.add("text-lg", "font-bold", "text-white", "my-4");
-nextQuoteEl.classList.add(
-  "bg-blue-500",
-  "text-white",
-  "px-4",
-  "py-2",
-  "rounded"
-);
+
 
 // Fetches a random quote from an API and displays it on the page
 function quote() {
