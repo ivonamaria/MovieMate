@@ -2,145 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/* main styles */
 * {
 	box-sizing: border-box;
 	background-color: black !important;
+	font-family: Nunito !important;
 }
 
-
-/* font style */
-
-body {
-  font-family: Nunito !important;
-	background-color: rgb(21, 21, 21);
-}
-
-/* sticky navbar properties */
-
-.navbar {
-	position: sticky !important;
-	top: 0 !important;
-	z-index: 10;
-	background-color: rgb(21, 21, 21) !important;
-	padding: 0%;
-	font-size: 20px;
-}
-
-.container-fluid {
-	height: 120px;
-}
-/* logo style */
-
-.logo {
-    width: 80px;
-    height: 80px;
-}
-
-span {
-	text-transform: uppercase;
-	font-size: 22px;
-	padding: 10px;
-	transition: transform 0.5s ease-out;
-	transition: color 3.s ;
-}
-
-span:hover, p:hover {
-	color:#9c4754;
-}
-
-/* logo hover */
-
-img:hover {
-	transform: scale(1.1);
-	cursor: pointer;
-	transition: transform 0.2s ease-out;
-}
-
-button {
-	color: #fff;
-}
-
-/* nav-bar color style properties */
-
-.navbar-toggler, .nav-link {
-    color: rgb(255, 255, 255) !important;
-}
-
-.navbar-toggler, .nav-link:hover {
-    color: #9c4754 !important;
-}
-
-.nav-link:hover {
-	color:#f3f6f3
-}
-
-.me-2 {
-    width: 250px;
-}
-
-.form-control:focus {
-    color: white;
-    background-color: #fff;
-    border-color: #42000A;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(98, 19, 18, 0.25);
-}
-
-
-.navbar-toggler-icon {
-    color: rgb(23, 23, 23);
-}
-
-/* search button styles */
-
-.btn-success {
---bs-btn-color: #000;
---bs-btn-bg: #42000A;
---bs-btn-border-color: #000000;
-}
-
-.btn:hover {
-    color: #000000;
-    background-color: #812e3b !important;
-    border-color: #812e3b;
+/* <a> hover animation */
+a:hover {
+	color: #812e3b;
+	text-decoration: none;
 }
 
 /* IMDb search results styles */
-
 #result {
+	position: absolute;
+	top: 15%;
+	left: 25%;
+	height: 70%;
 	width: 52%;
 	margin: 0 auto;
 	text-align: left;
 	border-left: 1px solid rgb(211, 206, 206);
 	border-right: 1px solid rgb(205, 202, 202);
 	border-radius: 10px;
-	/* position: fixed; */
 	overflow: scroll;
 	z-index: 999;
-	left: 25%;
-	height: 50%;
-	background-color: transparent;
+	display: none;
 }
 
 .resultRow {
-	padding: 2px 15px;
 	border-bottom: 1px solid white;
 	display: block;
 	color: rgb(221, 216, 216);
 	overflow: scroll;
 }
-/* Results description hover */
-
-a:hover {
-	color: #812e3b;
-	text-decoration: none;
-}
 
 .poster {
 	background-image: url('../img/noimage.png');
 	display: inline-block;
-	width: 40px;
-	height: 54px;
+	width: 10%;
+	height: 10%;
 	display: inline-block;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -155,41 +58,24 @@ a:hover {
 	line-height: 1.2em;
 }
 
-
-h3 {
-	text-transform: uppercase;
-	color: rgb(245, 241, 241);
-}
-
-
-@media screen and (max-width: 768px) {
-    .resultRow {
-        width: 100% !important;
-    }
-
-    #result {
-        width: 100% !important;
-				left: 0;
-				top: 33%;
-    }
-    
-}
-
-section {
-	display: flex;
-	width: 100%;
-	overflow-x: auto;
-}
-
-
-section img {
-	width: 200px;
-	padding: 20px 10px;
-	z-index: 1;
+/* main search styles */
+.form-control:focus {
+	color: white;
+	background-color: #fff;
+	border-color: #42000A;
+	outline: 0;
+	box-shadow: 0 0 0 0.25rem rgba(98, 19, 18, 0.25);
 }
 
 #results-nowshowing {
 	margin-top: 20px;
+}
+
+/* poster hover animations */
+img:hover {
+	transform: scale(1.1);
+	cursor: pointer;
+	transition: transform 0.2s ease-out;
 }
 
 .content {
@@ -210,3 +96,28 @@ section img {
 	display: block;
 }
 
+.movie {
+	display: flex;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+}
+
+.movie>.rounded-md {
+	flex-shrink: 0;
+	scroll-snap-align: center;
+	margin-right: 16px;
+}
+
+
+@media screen and (max-width: 768px) {
+		/* IMDB search result */
+		.resultRow {
+        width: 100% !important;
+    }
+
+    #result {
+        width: 100% !important;
+				left: 0;
+				top: 15%;
+    }   
+}

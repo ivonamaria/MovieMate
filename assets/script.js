@@ -1,5 +1,18 @@
-//IMDB results display
+// Navbar hamburger toggle
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const mobileMenu = document.getElementById("mobileMenu");
 
+function toggleMobileMenu() {
+  const mobileMenu = document.getElementById("mobileMenu");
+  mobileMenu.classList.toggle("hidden");
+}
+
+function closeNavbar() {
+  document.getElementById("mobileMenu").classList.add("hidden");
+}
+
+
+//IMDB results display
 var $input = document.getElementById("searchBox");
 var baseUrl = "https://sg.media-imdb.com/suggests/";
 var $result = document.getElementById("result");
@@ -124,23 +137,29 @@ $input.addEventListener("keyup", function () {
   }
 });
 
-// Elements for random quotes section
-const quotesEl = document.querySelector("#quotes");
-const nextQuoteEl = document.querySelector("#nextQuote");
+// Get the search input element
+const searchInput = document.getElementById('searchBox');
 
-// Apply Tailwind classes to the elements
-quotesEl.classList.add("text-lg", "font-bold", "text-white", "my-4");
-nextQuoteEl.classList.add(
-  "bg-blue-500",
-  "text-white",
-  "px-4",
-  "py-2",
-  "rounded"
-);
+// Get the search results container element
+const searchResults = document.getElementById('result');
+
+// Add an event listener to the search input
+searchInput.addEventListener('input', () => {
+  // Check if the search input value is empty
+  if (searchInput.value.trim() === '') {
+    // Hide the search results container
+    searchResults.style.display = 'none';
+  } else {
+    // Show the search results container
+    searchResults.style.display = 'block';
+  }
+});
+
+
 // API key and URL for The Movie Database (TMDb)
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
-const API_URL =
-  "https://api.themoviedb.org/3/search/movie?api_key=11d709982d73ca3b61226bf899b78a2b";
+const API_KEY = "11d709982d73ca3b61226bf899b78a2b";
+const API_URL = "https://api.themoviedb.org/3";
 
 // DOM elements
 const searchButton = document.querySelector("#search");
@@ -148,155 +167,215 @@ const input = document.querySelector("#inputMovie");
 const movieShow = document.querySelector("#results-nowshowing");
 const moviesContainer = document.querySelector("#movie-container");
 
-// Creates a full API URL using the given path and API key
+// Creates a full API URL using the given path
 function createURL(path) {
-  const API_URL = `https://api.themoviedb.org/3${path}?api_key=11d709982d73ca3b61226bf899b78a2b`;
-  return API_URL;
+  return `${API_URL}${path}?api_key=${API_KEY}`;
 }
 
 // Sends a request to the TMDb API with the given URL and handles the response
-function requestMovies(API_URL, onComplete) {
-  fetch(API_URL)
+function requestMovies(url, onComplete) {
+  fetch(url)
     .then((res) => res.json())
     .then((data) => {
       onComplete(data);
+      console.log(data);
     });
 }
 
 function movieSegment(movie) {
   return `
-    <div>
-      <div class="flex px-4 leading-none max-w-4xl movie-card">
-        <div>
-          <img
-            src="${IMG_URL + movie.poster_path}"
-            alt="${movie.title}"
-            class="h-72 w-56"
-          />
-        </div>
-        <div class="flex-col text-white">
-          <p class="pt-4 text-2xl font-bold text-center">${movie.title}</p>
-   
+  <div class="rounded-md bg-gray-800 shadow-lg">
+    <div class="md:flex px-4 leading-none max-w-4xl">
+      <img
+        src="${IMG_URL + movie.poster_path}"
+        alt="${movie.title}"
+        class="h-72 w-56 rounded-md transform -translate-y-4 border-4 border-gray-300 shadow-lg cursor-pointer"
+        onclick="toggleDetails(event, ${movie.id})"
+
+      />
+      <div class="flex-none">
+        <div class="relative">
+          <div class="flex">
+            <div id="details-${
+              movie.id
+            }" class="hidden bg-gray-800 rounded-md text-gray-300 w-72 p-4">
+              <p class="text-2xl font-bold">${movie.title}</p>
+              <hr class="hr-text" data-content="">
+              <div class="text-md flex justify-between my-2">
+                <span class="font-bold">Release Date: ${
+                  movie.release_date
+                }</span>
+              </div>
+              <p class="flex text-md my-2">Rating: ${movie.vote_average}/10</p>
+              <p class="hidden md:block my-4 text-sm text-left">${
+                movie.overview
+              }</p>
+<button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline" onclick="displayTrailers(${
+    movie.id
+  })">TRAILER</button>
+
+              <button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline">IMDB</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
   `;
 }
 
-// <div class="text-md flex justify-between px-4 my-2">
-//   <span class="font-bold">${movie.release_date}</span>
-// </div>
-// <p class="hidden md:block px-4 my-4 text-sm text-left">${
-//   movie.overview
-// }</p>
-// <p class="flex text-md px-4 my-2">
-//   Rating: ${movie.vote_average}/10
-// </p>
-// <div class="text-xs">
-//   <button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline">TRAILER</button>
+function toggleDetails(event, movieId) {
+  const details = document.getElementById(`details-${movieId}`);
 
-//   <button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline">IMDB</button>
-// </div>
+  // Hide all other open details
+  const openDetails = document.querySelectorAll(".details:not(.hidden)");
+  openDetails.forEach((openDetail) => {
+    if (openDetail !== details) {
+      openDetail.classList.add("hidden");
+    }
+  });
+
+  details.classList.toggle("hidden");
+}
 
 // Creates the HTML for a movie container, which includes a title and movie segments
 function movieContainer(movies, title = "") {
   const movieEl = document.createElement("div");
-  movieEl.setAttribute("class", "movie");
+  movieEl.classList.add("movie");
 
-  const movieSegments = movies.map((movie) => movieSegment(movie)).join("");
+  if (title) {
+    const heading = document.createElement("h2");
+    heading.textContent = title;
+    movieEl.appendChild(heading);
+  }
 
-  const moviePattern = `
-    <h2>${title}</h2>
-    <section class="section">
-      ${movieSegments}
-    </section>
-    <div class="content">
-      <div id="content-close" type="search"></div>
-    </div>
-  `;
+  movies.forEach((movie) => {
+    const movieCard = document.createElement("div");
+    movieCard.innerHTML = movieSegment(movie);
+    movieEl.appendChild(movieCard);
+  });
 
-  movieEl.innerHTML = moviePattern;
   return movieEl;
 }
-// Handles the response from a movie search, and displays the results in the "now showing" section
+
+// Handles the response from a movie search and displays the results in the "now showing" section
 function searchMovies(data) {
-  movieShow.innerHTML = ""; //clears/replaces the search value
+  movieShow.innerHTML = "";
   const movies = data.results;
   const movieBlock = movieContainer(movies);
   movieShow.appendChild(movieBlock);
 }
 
 // Renders a list of movies in the movies container
-function renderMovies(data) {
+function renderMovies(data, title) {
   const movies = data.results;
-
-  const movieBlock = movieContainer(movies, this.title);
+  const movieBlock = movieContainer(movies, title);
   moviesContainer.appendChild(movieBlock);
 }
 
+// Fetches movies by search query
 function findMovie(value) {
   const path = "/search/movie";
-  const url = createURL(path) + "&query=" + value;
-
-  requestMovies(url, searchMovies, handleError);
+  const url = createURL(path) + `&query=${value}`;
+  requestMovies(url, searchMovies);
 }
-function upcomingMovies(value) {
+
+// Fetches upcoming movies
+function upcomingMovies() {
   const path = "/movie/upcoming";
-  const url = createURL(path) + "&query=" + value;
-
-  const render = renderMovies.bind({ title: "UPCOMING MOVIES" });
-  requestMovies(url, render, handleError);
+  const url = createURL(path);
+  const title = "UPCOMING MOVIES";
+  requestMovies(url, (data) => renderMovies(data, title));
 }
 
-function popularMovies(value) {
+// Fetches popular movies
+function popularMovies() {
   const path = "/movie/popular";
-  const url = createURL(path) + "&query=" + value;
-
-  const render = renderMovies.bind({ title: "POPULAR MOVIES" });
-  requestMovies(url, render, handleError);
+  const url = createURL(path);
+  const title = "POPULAR MOVIES";
+  requestMovies(url, (data) => renderMovies(data, title));
 }
 
+// Initial movie search and fetches
 findMovie("Avengers");
 upcomingMovies();
 popularMovies();
 
-function handleError(error) {
-  console.log("Error: ", error);
-}
-
+// Handles search button click event
 searchButton.onclick = function (e) {
   e.preventDefault();
-  const value = input.value;
+  const value = input.value.trim();
 
-  // used to fetch videos/movies
-  findMovie(value);
-  input.value = "";
-  console.log("Value: ", value);
+  if (value) {
+    findMovie(value);
+    input.value = "";
+    console.log("Value: ", value);
+  }
 };
 
+// Creates an iframe element for embedding YouTube videos
 function createIframe(video) {
-  const inframe = document.createElement("iframe");
-  inframe.src = `https://www.youtube.com/embed/${video.key}`;
-  inframe.width = 360;
-  inframe.height = 315;
-  inframe.allowFullscreen = true;
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://www.youtube.com/embed/${video.key}`;
+  iframe.width = 360;
+  iframe.height = 315;
+  iframe.allowFullscreen = true;
 
-  return inframe;
+  return iframe;
 }
 
-// Store reference to current open video section
+// Stores a reference to the current open video section
 let currentVideoSection = null;
 
-function videoTemplate(data, content) {
-  // Remove current open video section (if it exists)
-  if (currentVideoSection) {
-    currentVideoSection.remove();
-  }
+// Handles the click event on movie images
+document.onclick = function (event) {
+  const target = event.target;
 
-  // Display movies
+  if (target.tagName.toLowerCase() === "img") {
+    const movieId = target.dataset.movieId;
+    console.log("Movie ID: ", movieId);
+
+    const section = target.parentElement; // section
+    const content = section.nextElementSibling; // content
+
+    content.classList.add("content-display");
+
+    if (target.id === "content-close") {
+      content.classList.remove("content-display");
+    }
+
+    const path = `/movie/${movieId}/videos`;
+    const url = createURL(path);
+    requestMovies(url, (data) => {
+      videoTemplate(data, content);
+    });
+  }
+};
+// Fetches movie trailers and displays them
+function displayTrailers(movieId) {
+  const path = `/movie/${movieId}/videos`;
+  const url = createURL(path);
+  requestMovies(url, (data) => {
+    videoTemplate(data);
+  });
+}
+
+
+function displayTrailers(movieId) {
+  const path = `/movie/${movieId}/videos`;
+  const url = createURL(path);
+  
+  requestMovies(url, (data) => {
+    const details = document.getElementById(`details-${movieId}`);
+    videoTemplate(data, details);
+  });
+}
+
+
+function videoTemplate(data, container) {
   const videos = data.results;
-  const videoSection = document.createElement("div"); //container to store the videos
-  videoSection.className = "video-section";
+  const videoSection = document.createElement("div");
+  videoSection.classList.add("video-section");
 
   const closeButton = document.createElement("button");
   closeButton.innerHTML = "X";
@@ -312,39 +391,32 @@ function videoTemplate(data, content) {
   });
 
   videoSection.appendChild(iframeContainer);
-  content.appendChild(videoSection);
 
-  // Store reference to current open video section
-  currentVideoSection = videoSection;
+  // Remove the existing video section if it exists in the container
+  const existingVideoSection = container.querySelector(".video-section");
+  if (existingVideoSection) {
+    existingVideoSection.remove();
+  }
+
+  container.appendChild(videoSection);
 }
 
-//Event Delegation
-document.onclick = function (event) {
-  const target = event.target;
 
-  if (target.tagName.toLowerCase() === "img") {
-    const movieId = target.dataset.movieId;
-    console.log("Movie ID: ", movieId);
-    const section = event.target.parentElement; //section
-    const content = section.nextElementSibling; // content
-    content.classList.add("content-display");
 
-    if (target.id === "content-close") {
-      const content = target.parentElement;
-      content.classList.remove("content-display");
-    }
+// Elements for random quotes section
+const quotesEl = document.querySelector("#quotes");
+const nextQuoteEl = document.querySelector("#nextQuote");
 
-    const path = `/movie/${movieId}/videos`;
-    const API_URL = createURL(path);
-    //fetch movie videos
-    fetch(API_URL)
-      .then((res) => res.json())
-      .then((data) => videoTemplate(data, content))
-      .catch((error) => {
-        console.log("Error ", error);
-      });
-  }
-};
+// Apply Tailwind classes to the elements
+quotesEl.classList.add("text-lg", "font-bold", "text-white", "my-4");
+nextQuoteEl.classList.add(
+  "bg-blue-500",
+  "text-white",
+  "px-4",
+  "py-2",
+  "rounded"
+);
+
 
 // Fetches a random quote from an API and displays it on the page
 function quote() {
@@ -370,3 +442,4 @@ nextQuoteEl.addEventListener("click", function (event) {
   event.preventDefault();
   quote();
 });
+
