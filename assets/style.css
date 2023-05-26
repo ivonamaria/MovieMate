@@ -23,7 +23,7 @@ nav {
 /* IMDb search results styles */
 #result {
 	position: absolute;
-	top: 15%;
+	top: 110px;
 	left: 25%;
 	height: 70%;
 	width: 52%;
@@ -33,7 +33,7 @@ nav {
 	border-right: 1px solid rgb(205, 202, 202);
 	border-radius: 10px;
 	overflow: scroll;
-	display: none;
+	z-index: 99;
 }
 
 .resultRow {
@@ -46,8 +46,8 @@ nav {
 .poster {
 	background-image: url('../img/noimage.png');
 	display: inline-block;
-	width: 10%;
-	height: 10%;
+	width: 40px;
+	height: 54px;
 	display: inline-block;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -74,7 +74,21 @@ img:hover {
 	transition: transform 0.2s ease-out;
 }
 
-/* .content {
+/* movie poster styles */
+.movie {
+	display: flex;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+}
+
+.movie>.rounded-md {
+	flex-shrink: 0;
+	scroll-snap-align: center;
+	margin-right: 16px;
+}
+
+/* trailer container */
+.content {
 	display: none;
 }
 
@@ -92,28 +106,16 @@ img:hover {
 	display: block;
 }
 
-.movie {
-	display: flex;
-	overflow-x: auto;
-	scroll-snap-type: x mandatory;
-}
-
-.movie>.rounded-md {
-	flex-shrink: 0;
-	scroll-snap-align: center;
-	margin-right: 16px;
-} */
-
-
 @media screen and (max-width: 768px) {
 		/* IMDB search result */
 		.resultRow {
-        width: 100% !important;
+        width: 100%;
     }
 
     #result {
-        width: 100% !important;
+        width: 100%;
+				height: 50%;
 				left: 0;
-				top: 15%;
+				top: 110px;
     }   
 }
