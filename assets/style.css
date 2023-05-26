@@ -74,20 +74,23 @@ img:hover {
 	transition: transform 0.2s ease-out;
 }
 
-/* movie poster styles */
-.movie {
+section {
 	display: flex;
+	width: 100%;
 	overflow-x: auto;
-	scroll-snap-type: x mandatory;
+
 }
 
-.movie>.rounded-md {
-	flex-shrink: 0;
-	scroll-snap-align: center;
-	margin-right: 16px;
+section img {
+	width: 200px;
+	padding: 20px 10px;
+	z-index: 1;
 }
 
-/* trailer container */
+#results-nowshowing {
+	margin-top: 20px;
+}
+
 .content {
 	display: none;
 }

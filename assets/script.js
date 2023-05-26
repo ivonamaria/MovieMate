@@ -22,7 +22,7 @@ $input.addEventListener("keyup", function () {
   var cleanInput = $input.value.replace(/\s/g, "");
 
   // clearing result div if the input box is empty
-  if (cleanInput.length == 0) {
+  if (cleanInput.length === 0) {
     $result.innerHTML = "";
     $result.style.display = "none"; // Hide the result div
   }
@@ -189,79 +189,33 @@ function requestMovies(url, onComplete) {
     });
 }
 
-function movieSegment(movie) {
-  return `
-  <div class="rounded-md bg-gray-800 shadow-lg">
-    <div class="md:flex px-4 leading-none max-w-4xl">
-      <img
-        src="${IMG_URL + movie.poster_path}"
-        alt="${movie.title}"
-        class="h-72 w-56 rounded-md transform -translate-y-4 border-4 border-gray-300 shadow-lg cursor-pointer"
-        onclick="toggleDetails(event, ${movie.id})"
-
-      />
-      <div class="flex-none">
-        <div class="relative">
-          <div class="flex">
-            <div id="details-${
-              movie.id
-            }" class="hidden bg-gray-800 rounded-md text-gray-300 w-72 p-4">
-              <p class="text-2xl font-bold">${movie.title}</p>
-              <hr class="hr-text" data-content="">
-              <div class="text-md flex justify-between my-2">
-                <span class="font-bold">Release Date: ${
-                  movie.release_date
-                }</span>
-              </div>
-              <p class="flex text-md my-2">Rating: ${movie.vote_average}/10</p>
-              <p class="hidden md:block my-4 text-sm text-left">${
-                movie.overview
-              }</p>
-<button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline" onclick="displayTrailers(${
-    movie.id
-  })">TRAILER</button>
-
-              <button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline">IMDB</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  `;
-}
-
-function toggleDetails(event, movieId) {
-  const details = document.getElementById(`details-${movieId}`);
-
-  // Hide all other open details
-  const openDetails = document.querySelectorAll(".details:not(.hidden)");
-  openDetails.forEach((openDetail) => {
-    if (openDetail !== details) {
-      openDetail.classList.add("hidden");
+// Creates the HTML for a movie segment, which is a poster image for a movie with the movie's ID as a data attribute
+function movieSegment(movies) {
+  return movies.map((movie) => {
+    if (movie.poster_path){
+      return `<img 
+      src=${IMG_URL + movie.poster_path} 
+      data-movie-id=${movie.id}/>`;
     }
-  });
-
-  details.classList.toggle("hidden");
+  })
 }
 
-// Creates the HTML for a movie container, which includes a title and movie segments
-function movieContainer(movies, title = "") {
-  const movieEl = document.createElement("div");
-  movieEl.classList.add("movie");
+// Creates the HTML for a movie container, which includes a title, a section for movie segments, and a content section for displaying videos
+function movieContainer(movies, title = '',) {
+  const movieEl = document.createElement('div');
+  movieEl.setAttribute('class', 'movie');
 
-  if (title) {
-    const heading = document.createElement("h2");
-    heading.textContent = title;
-    movieEl.appendChild(heading);
-  }
+  const moviePattern = `
+    <h2>${title}</2>
+    <section class="section">
+      ${movieSegment(movies)}
+    </section>
+    <div class="content">
+      <div id="content-close" type="search"></div>
+    </div>
+  `;
 
-  movies.forEach((movie) => {
-    const movieCard = document.createElement("div");
-    movieCard.innerHTML = movieSegment(movie);
-    movieEl.appendChild(movieCard);
-  });
-
+  movieEl.innerHTML = moviePattern ;
   return movieEl;
 }
 
@@ -274,17 +228,19 @@ function searchMovies(data) {
 }
 
 // Renders a list of movies in the movies container
-function renderMovies(data, title) {
+function renderMovies(data, title = '') {
   const movies = data.results;
   const movieBlock = movieContainer(movies, title);
-  moviesContainer.appendChild(movieBlock);
+  moviesContainer.prepend(movieBlock); // Prepend the movie container to display it on top
 }
+
 
 // Fetches movies by search query
 function findMovie(value) {
   const path = "/search/movie";
   const url = createURL(path) + `&query=${value}`;
-  requestMovies(url, searchMovies);
+  const title = `Search Results for "${value}"`;
+  requestMovies(url, (data) => renderMovies(data, title));
 }
 
 // Fetches upcoming movies
