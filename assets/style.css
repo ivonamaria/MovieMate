@@ -9,10 +9,14 @@
 	font-family: Nunito !important;
 }
 
-/* <a> hover animation */
+/* <a> hover font style */
 a:hover {
 	color: #812e3b;
 	text-decoration: none;
+}
+
+nav {
+	z-index: 999;
 }
 
 /* IMDb search results styles */
@@ -28,7 +32,6 @@ a:hover {
 	border-right: 1px solid rgb(205, 202, 202);
 	border-radius: 10px;
 	overflow: scroll;
-	z-index: 999;
 	display: none;
 }
 
@@ -58,6 +61,7 @@ a:hover {
 	line-height: 1.2em;
 }
 
+
 /* main search styles */
 .form-control:focus {
 	color: white;
@@ -78,7 +82,7 @@ img:hover {
 	transition: transform 0.2s ease-out;
 }
 
-.content {
+/* .content {
 	display: none;
 }
 
@@ -106,7 +110,7 @@ img:hover {
 	flex-shrink: 0;
 	scroll-snap-align: center;
 	margin-right: 16px;
-}
+} */
 
 
 @media screen and (max-width: 768px) {

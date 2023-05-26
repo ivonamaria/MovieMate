@@ -138,23 +138,31 @@ $input.addEventListener("keyup", function () {
 });
 
 // Get the search input element
-const searchInput = document.getElementById('searchBox');
+const searchInput = document.getElementById("searchBox");
 
 // Get the search results container element
-const searchResults = document.getElementById('result');
+const searchResults = document.getElementById("result");
 
 // Add an event listener to the search input
-searchInput.addEventListener('input', () => {
+searchInput.addEventListener("input", () => {
   // Check if the search input value is empty
-  if (searchInput.value.trim() === '') {
+  if (searchInput.value.trim() === "") {
     // Hide the search results container
-    searchResults.style.display = 'none';
+    searchResults.style.display = "none";
   } else {
     // Show the search results container
-    searchResults.style.display = 'block';
+    searchResults.style.display = "block";
   }
 });
 
+// Add a click event listener to the document
+document.addEventListener("click", (event) => {
+  // Check if the click event target is outside the search results container
+  if (!searchResults.contains(event.target)) {
+    // Hide the search results container
+    searchResults.style.display = "none";
+  }
+});
 
 // API key and URL for The Movie Database (TMDb)
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
@@ -360,17 +368,15 @@ function displayTrailers(movieId) {
   });
 }
 
-
 function displayTrailers(movieId) {
   const path = `/movie/${movieId}/videos`;
   const url = createURL(path);
-  
+
   requestMovies(url, (data) => {
     const details = document.getElementById(`details-${movieId}`);
     videoTemplate(data, details);
   });
 }
-
 
 function videoTemplate(data, container) {
   const videos = data.results;
@@ -401,8 +407,6 @@ function videoTemplate(data, container) {
   container.appendChild(videoSection);
 }
 
-
-
 // Elements for random quotes section
 const quotesEl = document.querySelector("#quotes");
 const nextQuoteEl = document.querySelector("#nextQuote");
@@ -416,7 +420,6 @@ nextQuoteEl.classList.add(
   "py-2",
   "rounded"
 );
-
 
 // Fetches a random quote from an API and displays it on the page
 function quote() {
@@ -442,4 +445,3 @@ nextQuoteEl.addEventListener("click", function (event) {
   event.preventDefault();
   quote();
 });
-

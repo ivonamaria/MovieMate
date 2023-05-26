@@ -12,83 +12,87 @@
   </head>
   <body>
     <!-- nav-bar elements -->
-    <nav class="sticky top-0 container mx-auto px-4">
-        <div class="flex items-center justify-around py-4">
-          <a class="flex items-center" href="#">
-            <img src="./images/white-logo.svg" alt="movie-mate-logo" class="w-20 h-20">
-            <span class="hidden ml-2 text-white text-lg font-semibold md:inline hover:text-rose-900">Movie Mate</span>
-          </a>
+    <nav class="fixed container mx-auto px-4">
+      <div class="flex items-center justify-around py-4">
+        <a class="flex items-center" href="#">
+          <img src="./images/white-logo.svg" alt="movie-mate-logo" class="w-20 h-20">
+          <span class="hidden ml-2 text-white text-lg font-semibold md:inline hover:text-rose-900">Movie Mate</span>
+        </a>
+        <a href="#">       
           <form role="search">
-            <input class="text-white py-1 px-4 w-60 rounded-md border-pink-900 border-2 focus:outline-none focus:border-pink-900" id="searchBox" placeholder="IMDB Search Engine" aria-label="Search">
-          </form>
-            <div class="flex items-center">
-              <ul class="hidden md:flex space-x-4"> <!-- Display the menu on medium and larger screens -->
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="#results-nowshowing" onclick="closeNavbar()">
-                    <span class="text-pink-900">|</span> Popular Movies <span class="text-pink-900">|</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="#movie-container" onclick="closeNavbar()">
-                    <span class="text-pink-900">|</span> Upcoming Movies <span class="text-pink-900">|</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="#movie-quotes" onclick="closeNavbar()">
-                    <span class="text-pink-900">|</span> Movie Quotes <span class="text-pink-900">|</span>
-                  </a>
-                </li>
-              </ul>
-              <button class="ml-4 md:hidden text-white focus:outline-none" id="hamburgerBtn" onclick="toggleMobileMenu()"> <!-- Show the hamburger menu on mobile view -->
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-        </div>
-        <ul class="space-y-4 mt-4 hidden ml-6" id="mobileMenu"> <!-- Hidden mobile menu initially -->
-          <li class="nav-item">
+          <input class="text-white py-1 px-4 w-60 rounded-md border-pink-900 border-2 focus:outline-none focus:border-pink-900" id="searchBox" placeholder="IMDB Search Engine" aria-label="Search">
+        </form>
+        </a>
+          <div class="flex items-center">
+            <ul class="hidden md:flex space-x-4"> <!-- Display the menu on medium and larger screens -->
+              <li class="nav-item m-4">
+                <a class="nav-link text-white" href="#results-nowshowing" onclick="closeNavbar()">
+                  <span class="text-pink-900">|</span> Popular Movies <span class="text-pink-900">|</span>
+                </a>
+              </li>
+              <li class="nav-item m-4">
+                <a class="nav-link text-white" href="#movie-container" onclick="closeNavbar()">
+                  <span class="text-pink-900">|</span> Upcoming Movies <span class="text-pink-900">|</span>
+                </a>
+              </li>
+              <li class="nav-item m-4">
+                <a class="nav-link text-white" href="#movie-quotes" onclick="closeNavbar()">
+                  <span class="text-pink-900">|</span> Movie Quotes <span class="text-pink-900">|</span>
+                </a>
+              </li>
+            </ul>
+            <button class="ml-4 md:hidden text-white focus:outline-none" id="hamburgerBtn" onclick="toggleMobileMenu()"> <!-- Show the hamburger menu on mobile view -->
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+      </div>
+      <div>
+        <ul class="hidden border-r-4 border-red-900 pr-4 py-4 text-end" id="mobileMenu"><!-- Hidden mobile menu initially -->
+          <li class="nav-item m-4">
             <a class="nav-link text-white" href="#results-nowshowing" onclick="closeNavbar()">Popular Movies</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item m-4">
             <a class="nav-link text-white" href="#movie-container" onclick="closeNavbar()">Upcoming Movies</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item m-4">
             <a class="nav-link text-white" href="#movie-quotes" onclick="closeNavbar()">Movie Quotes</a>
           </li>
         </ul>
-    </nav>
-  <main>
-    <!-- IMDb Results Element -->
-    <div id="result"></div>  
-    <!-- Hero Section with search button--->
-    <div class="p-5 text-center bg-cover bg-center" style="background-image: url('./images/hero-background.jpg')">
-        <div class="flex justify-center items-center h-screen">
-          <div class="text-white">
-            <h1 class="mb-3 text-4xl font-bold">Discover Popular and Trending Movies</h1>
-            <h2 class="mb-3">A single platform for all the movie lovers!</h2>
-            <div class="flex items-center justify-center mb-3">
-              <input type="text" class="form-control w-80" placeholder="Search For Any Movie ..." id="inputMovie">
-              <button id="search" class="btn btn-danger ml-2" type="submit">Search</button>
-            </div>
-          </div>
-        </div>
-    </div>
-    <div id="results-nowshowing" class="flex"></div>
-    <div id="movie-container"></div>
-    <div id="favourites"></div>
-  
-    <!-- Section for Quotes -->
-    <section>
-      <div class="col-12 text-center" id="movie-quotes">
-        <h3 class="mt-5 underline">Famous Movie Quotes</h3>
-        <h4 id="quotes"></h4>
-        <button id="nextQuote" class="btn btn-danger mt-4 mb-3" type="submit">GENERATE RANDOM QUOTES</button>
       </div>
-    </section> 
-  </main>
+    </nav>
+      <main>
+        <!-- IMDb Results Element -->
+        <div id="result"></div>  
+        <!-- Hero Section with search button--->
+        <div class="p-5 text-center bg-cover bg-center" style="background-image: url('./images/hero-background.jpg')">
+            <div class="flex justify-center items-center h-screen">
+              <div class="text-white">
+                <h1 class="mb-3 text-4xl font-bold">Discover Popular and Trending Movies</h1>
+                <h2 class="mb-3">A single platform for all the movie lovers!</h2>
+                <div class="flex items-center justify-center mb-3">
+                  <input type="text" class="form-control w-80" placeholder="Search For Any Movie ..." id="inputMovie">
+                  <button id="search" class="btn btn-danger ml-2" type="submit">Search</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="results-nowshowing" class="flex"></div>
+        <div id="movie-container"></div>
+        <div id="favourites"></div>
+      
+        <!-- Section for Quotes -->
+        <section>
+          <div class="col-12 text-center" id="movie-quotes">
+            <h3 class="mt-5 underline">Famous Movie Quotes</h3>
+            <h4 id="quotes"></h4>
+            <button id="nextQuote" class="btn btn-danger mt-4 mb-3" type="submit">GENERATE RANDOM QUOTES</button>
+          </div>
+        </section> 
+      </main>
   <footer>
     <div class="text-center p-3">  
       <a class="text-light" href="#">© 2023 Chaitanya Varma</a>
