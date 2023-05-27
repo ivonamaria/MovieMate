@@ -47,11 +47,13 @@ nav {
 .poster {
 	background-image: url('../img/noimage.png');
 	display: inline-block;
-	width: 40px;
-	height: 54px;
+	width: 60px;
+	height: 84px;
+	margin: 10px;
 	display: inline-block;
-	background-size: contain;
+	background-size: cover;
 	background-repeat: no-repeat;
+	background-position: center;
 	vertical-align: middle;
 }
 
@@ -68,30 +70,27 @@ nav {
 	margin-top: 20px;
 }
 
-/* poster hover animations */
+/* poster, hover animations */
 img:hover {
 	transform: scale(1.1);
 	cursor: pointer;
 	transition: transform 0.2s ease-out;
 }
 
-section {
+.movie-section {
 	display: flex;
 	width: 100%;
 	overflow-x: auto;
 
 }
 
-section img {
+.movie-section img {
 	width: 200px;
 	padding: 20px 10px;
 	z-index: 1;
 }
 
-#results-nowshowing {
-	margin-top: 20px;
-}
-
+/* trailer styles */
 .content {
 	display: none;
 }

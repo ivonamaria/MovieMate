@@ -189,25 +189,98 @@ function requestMovies(url, onComplete) {
     });
 }
 
-// Creates the HTML for a movie segment, which is a poster image for a movie with the movie's ID as a data attribute
 function movieSegment(movies) {
   return movies.map((movie) => {
-    if (movie.poster_path){
-      return `<img 
-      src=${IMG_URL + movie.poster_path} 
-      data-movie-id=${movie.id}/>`;
+    if (movie.poster_path) {
+      return `
+      <img
+        src="${IMG_URL + movie.poster_path}"
+        alt="${movie.title}"
+        class="h-72 w-56 rounded-md transform -translate-y-4 border-4 border-gray-300 shadow-lg cursor-pointer"
+        onclick="toggleDetails(event, ${movie.id})"
+      />
+      <div class="flex-none">
+        <div class="relative">
+          <div class="flex">
+            <div id="details-${
+              movie.id
+            }" class="hidden bg-gray-800 rounded-md text-gray-300 w-72 p-4">
+              <p class="text-2xl font-bold">${movie.title}</p>
+              <hr class="hr-text" data-content="">
+              <div class="text-md flex justify-between my-2">
+                <span class="font-bold">Release Date: ${
+                  movie.release_date
+                }</span>
+              </div>
+              <p class="flex text-md my-2">Rating: ${movie.vote_average}/10</p>
+              <p class="hidden md:block my-4 text-sm text-left">${
+                movie.overview
+              }</p>
+<button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline" onclick="displayTrailers(${
+        movie.id
+      })">TRAILER</button>
+<button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline" onclick="redirectToIMDb(event, ${
+        movie.id
+      })">IMDB</button>
+
+            </div>
+          </div>
+    </div>
+  </div>`;
     }
-  })
+  });
 }
 
+// Sends a request to the TMDb API with the given URL and handles the response
+function requestMovies(url, onComplete) {
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      onComplete(data);
+      console.log(data);
+    });
+}
+
+// Retrieves the IMDb ID for a movie using the TMDb API
+function getImdbId(movieId, onComplete) {
+  const url = createURL(`/movie/${movieId}/external_ids`);
+  requestMovies(url, (data) => {
+    const imdbId = data.imdb_id;
+    onComplete(imdbId);
+  });
+}
+
+// Redirects to IMDb page for the specified movie ID
+function redirectToIMDb(event, movieId) {
+  event.stopPropagation();
+  getImdbId(movieId, (imdbId) => {
+    if (imdbId) {
+      const imdbUrl = `https://www.imdb.com/title/${imdbId}/`;
+      const newTab = window.open(imdbUrl, "_blank");
+      newTab.focus();
+    } else {
+      console.log("IMDb ID not found for movie ID:", movieId);
+    }
+  });
+}
+
+
+
+function toggleDetails(event, movieId) {
+  const details = document.getElementById(`details-${movieId}`);
+  details.classList.toggle("hidden");
+}
+
+onclick = "toggleDetails(event, ${movie.id})";
+
 // Creates the HTML for a movie container, which includes a title, a section for movie segments, and a content section for displaying videos
-function movieContainer(movies, title = '',) {
-  const movieEl = document.createElement('div');
-  movieEl.setAttribute('class', 'movie');
+function movieContainer(movies, title = "") {
+  const movieEl = document.createElement("div");
+  movieEl.setAttribute("class", "movie");
 
   const moviePattern = `
-    <h2>${title}</2>
-    <section class="section">
+    <h2>${title}</h2>
+    <section class="movie-section">
       ${movieSegment(movies)}
     </section>
     <div class="content">
@@ -215,25 +288,24 @@ function movieContainer(movies, title = '',) {
     </div>
   `;
 
-  movieEl.innerHTML = moviePattern ;
+  movieEl.innerHTML = moviePattern;
   return movieEl;
 }
 
 // Handles the response from a movie search and displays the results in the "now showing" section
-function searchMovies(data) {
-  movieShow.innerHTML = "";
+function searchMovies(data, title) {
   const movies = data.results;
-  const movieBlock = movieContainer(movies);
+  const movieBlock = movieContainer(movies, title);
+  movieShow.innerHTML = "";
   movieShow.appendChild(movieBlock);
 }
 
 // Renders a list of movies in the movies container
-function renderMovies(data, title = '') {
+function renderMovies(data, title = "") {
   const movies = data.results;
   const movieBlock = movieContainer(movies, title);
   moviesContainer.prepend(movieBlock); // Prepend the movie container to display it on top
 }
-
 
 // Fetches movies by search query
 function findMovie(value) {
@@ -260,7 +332,7 @@ function popularMovies() {
 }
 
 // Initial movie search and fetches
-findMovie("Avengers");
+findMovie("");
 upcomingMovies();
 popularMovies();
 
@@ -270,11 +342,27 @@ searchButton.onclick = function (e) {
   const value = input.value.trim();
 
   if (value) {
+    movieShow.innerHTML = ""; // Clear previous search results
     findMovie(value);
     input.value = "";
     console.log("Value: ", value);
   }
 };
+
+// Perform movie search when Enter key is pressed
+input.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    const value = input.value.trim();
+
+    if (value) {
+      movieShow.innerHTML = ""; // Clear previous search results
+      findMovie(value);
+      input.value = "";
+      console.log("Value: ", value);
+    }
+  }
+});
 
 // Creates an iframe element for embedding YouTube videos
 function createIframe(video) {
