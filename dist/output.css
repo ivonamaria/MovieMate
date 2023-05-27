@@ -2685,6 +2685,7 @@ nav {
   border-radius: 10px;
   overflow: scroll;
   z-index: 99;
+  display: none;
 }
 
 .resultRow {
@@ -2821,11 +2822,6 @@ section img {
   background-color: rgb(76 5 25 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-gray-900:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
-}
-
 .hover\:font-bold:hover {
   font-weight: 700;
 }
@@ -2876,10 +2872,6 @@ section img {
 
   .md\:mr-4 {
     margin-right: 1rem;
-  }
-
-  .md\:block {
-    display: block;
   }
 
   .md\:inline {
