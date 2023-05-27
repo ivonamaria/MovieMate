@@ -20,6 +20,18 @@ nav {
 	z-index: 999;
 }
 
+/* movie section styles */
+h2 {
+	font-size: x-large;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin: 10px;
+	border: #812e3b solid 2px;
+	border-radius: 10px;
+}
+
 /* IMDb search results styles */
 #result {
 	position: absolute;
@@ -70,13 +82,7 @@ nav {
 	margin-top: 20px;
 }
 
-/* poster, hover animations */
-img:hover {
-	transform: scale(1.1);
-	cursor: pointer;
-	transition: transform 0.2s ease-out;
-}
-
+/* movie card styles */
 .movie-section {
 	display: flex;
 	width: 100%;
@@ -86,7 +92,7 @@ img:hover {
 
 .movie-section img {
 	width: 200px;
-	padding: 20px 10px;
+	margin: 20px 10px;
 	z-index: 1;
 }
 

@@ -196,33 +196,36 @@ function movieSegment(movies) {
       <img
         src="${IMG_URL + movie.poster_path}"
         alt="${movie.title}"
-        class="h-72 w-56 rounded-md transform -translate-y-4 border-4 border-gray-300 shadow-lg cursor-pointer"
+        class=" h-80 w-56 cursor-pointer hover:scale-105 transition-all"
         onclick="toggleDetails(event, ${movie.id})"
       />
       <div class="flex-none">
         <div class="relative">
           <div class="flex">
-            <div id="details-${
-              movie.id
-            }" class="hidden bg-gray-800 rounded-md text-gray-300 w-72 p-4">
-              <p class="text-2xl font-bold">${movie.title}</p>
-              <hr class="hr-text" data-content="">
-              <div class="text-md flex justify-between my-2">
-                <span class="font-bold">Release Date: ${
+            <div id="details-${movie.id}" class="hidden text-white w-96 p-4">
+              <p class="text-2xl font-bold h-16 flex items-center ">${
+                movie.title
+              }</p>
+              <hr>
+              <div class="text-md my-2">
+                <span class="font-bold"><i class="fa-solid fa-calendar-days"></i>&nbsp ${
                   movie.release_date
+                }&nbsp</span>
+                <span class="text-md">${
+                  movie.vote_average > 1
+                    ? `<i class="fa-solid fa-star"></i>&nbsp; ${movie.vote_average}/10`
+                    : ""
                 }</span>
               </div>
-              <p class="flex text-md my-2">Rating: ${movie.vote_average}/10</p>
-              <p class="hidden md:block my-4 text-sm text-left">${
-                movie.overview
-              }</p>
-<button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline" onclick="displayTrailers(${
-        movie.id
-      })">TRAILER</button>
-<button type="button" class="border border-gray-400 text-gray-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline" onclick="redirectToIMDb(event, ${
-        movie.id
-      })">IMDB</button>
-
+              <p class="text-sm text-justify h-40 overflow-y-scroll">
+              ${movie.overview}
+              </p>
+              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="displayTrailers(${
+                movie.id
+              })">TRAILER</button>
+              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="redirectToIMDb(event, ${
+                movie.id
+              })">IMDB</button>
             </div>
           </div>
     </div>
@@ -327,12 +330,12 @@ function upcomingMovies() {
 function popularMovies() {
   const path = "/movie/popular";
   const url = createURL(path);
-  const title = "POPULAR MOVIES";
+  const title = "IN-THEATRES";
   requestMovies(url, (data) => renderMovies(data, title));
 }
 
 // Initial movie search and fetches
-findMovie("");
+findMovie("Avengers");
 upcomingMovies();
 popularMovies();
 
