@@ -94,13 +94,14 @@ h2 {
 	z-index: 1;
 }
 
+/* trailer section */
 .video-section > div {
 	display: flex;
 	margin: 10px;
-	width: 1000px;
-	overflow-x: auto;
-	align-items: center;
-	top: 0;
+	width: 180%;
+	overflow-x: scroll;
+	translate: -244px;
+	scroll-behavior: smooth;
 }
 
 

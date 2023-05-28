@@ -211,7 +211,7 @@ function movieSegment(movies) {
               <p class="text-sm text-justify h-40 overflow-y-scroll">
                 ${movie.overview}
               </p>
-              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="displayTrailers(${movie.id})">TRAILER</button>
+              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="displayTrailers(${movie.id})">TRAILER & CLIPS</button>
               <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="redirectToIMDb(event, ${movie.id})">IMDB</button>
             </div>
           </div>
@@ -251,15 +251,17 @@ let currentDetails = null;
 // Toggles the details section for the specified movie ID
 function toggleDetails(event, movieId) {
   const details = document.getElementById(`details-${movieId}`);
-  details.classList.toggle("hidden");
+  if (details) {
+    details.classList.toggle("hidden");
 
-  // Close the previous details if exists
-  if (currentDetails && currentDetails !== details) {
-    currentDetails.classList.add("hidden");
+    // Close the previous details if exists
+    if (currentDetails && currentDetails !== details) {
+      currentDetails.classList.add("hidden");
+    }
+
+    // Update the reference to the current details
+    currentDetails = details;
   }
-
-  // Update the reference to the current details
-  currentDetails = details;
 }
 
 // Handles the click event on movie images
@@ -268,9 +270,11 @@ document.onclick = function (event) {
 
   if (target.tagName.toLowerCase() === "img") {
     const movieId = target.dataset.movieId;
-    toggleDetails(movieId);
+    toggleDetails(event, movieId);
   }
 };
+
+
 
 // Creates the HTML for a movie container, which includes a title, a section for movie segments, and a content section for displaying videos
 function movieContainer(movies, title = "") {
@@ -320,17 +324,36 @@ function upcomingMovies() {
 }
 
 // Fetches popular movies
-function inTheatres() {
+function trending() {
   const path = "/movie/popular";
+  const url = createURL(path);
+  const title = "TRENDING NOW";
+  requestMovies(url, (data) => renderMovies(data, title));
+}
+
+//Fetch top rated movies
+function topRated() {
+  const path = "/movie/top_rated";
+  const url = createURL(path);
+  const title = "TOP-RATED MOVIES";
+  requestMovies(url, (data) => renderMovies(data, title));
+}
+
+//Fetch top rated movies
+function nowPlaying() {
+  const path = "/movie/now_playing";
   const url = createURL(path);
   const title = "IN-THEATRES";
   requestMovies(url, (data) => renderMovies(data, title));
 }
 
+
 // Initial movie search and fetches
 findMovie("Avengers");
 upcomingMovies();
-inTheatres();
+trending();
+topRated();
+nowPlaying();
 
 
 // Handles search button click event
@@ -365,8 +388,8 @@ input.addEventListener("keydown", function (event) {
 function createIframe(video) {
   const iframe = document.createElement("iframe");
   iframe.src = `https://www.youtube.com/embed/${video.key}`;
-  iframe.width = 360;
-  iframe.height = 315;
+  iframe.width = 300;
+  iframe.height = 200;
   iframe.allowFullscreen = true;
 
   return iframe;
