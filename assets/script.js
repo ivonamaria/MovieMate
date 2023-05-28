@@ -188,31 +188,46 @@ function requestMovies(url, onComplete) {
     });
 }
 
-function movieSegment(movies) {
+function movieSegment(movies, sectionId) {
   return movies
     .filter((movie) => movie.poster_path) // Filter out movies without poster_path
-    .map((movie) => `
+    .map(
+      (movie) => `
       <img
         src="${IMG_URL + movie.poster_path}"
         alt="${movie.title}"
         class="h-80 w-56 cursor-pointer hover:scale-105 transition-all"
-        onclick="toggleDetails(event, ${movie.id})"
+        onclick="toggleDetails(event, ${movie.id}, '${sectionId}')"
       />
       <div class="flex-none">
         <div class="relative">
           <div class="flex">
-            <div id="details-${movie.id}" class="hidden text-white w-96 p-4">
-              <p class="text-2xl font-bold h-16 flex items-center">${movie.title}</p>
+            <div id="details-${sectionId}-${
+        movie.id
+      }" class="hidden text-white w-96 p-4">
+              <p class="text-2xl font-bold h-16 flex items-center">${
+                movie.title
+              }</p>
               <hr>
               <div class="text-md my-2">
-                <span class="font-bold"><i class="fa-solid fa-calendar-days"></i>&nbsp;${movie.release_date}&nbsp;</span>
-                <span class="text-md">${movie.vote_average > 1 ? `<i class="fa-solid fa-star"></i>&nbsp; ${movie.vote_average}/10` : ""}</span>
+                <span class="font-bold"><i class="fa-solid fa-calendar-days"></i>&nbsp;${
+                  movie.release_date
+                }&nbsp;</span>
+                <span class="text-md">${
+                  movie.vote_average > 1
+                    ? `<i class="fa-solid fa-star"></i>&nbsp; ${movie.vote_average}/10`
+                    : ""
+                }</span>
               </div>
               <p class="text-sm text-justify h-40 overflow-y-scroll">
                 ${movie.overview}
               </p>
-              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="displayTrailers(${movie.id})">TRAILER & CLIPS</button>
-              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="redirectToIMDb(event, ${movie.id})">IMDB</button>
+              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="displayTrailers(${
+                movie.id
+              }, '${sectionId}')">TRAILER & CLIPS</button>
+              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="redirectToIMDb(event, ${
+                movie.id
+              })">IMDB</button>
             </div>
           </div>
         </div>
@@ -249,8 +264,8 @@ function redirectToIMDb(event, movieId) {
 let currentDetails = null;
 
 // Toggles the details section for the specified movie ID
-function toggleDetails(event, movieId) {
-  const details = document.getElementById(`details-${movieId}`);
+function toggleDetails(event, movieId, sectionId) {
+  const details = document.getElementById(`details-${sectionId}-${movieId}`);
   if (details) {
     details.classList.toggle("hidden");
 
@@ -274,17 +289,15 @@ document.onclick = function (event) {
   }
 };
 
-
-
 // Creates the HTML for a movie container, which includes a title, a section for movie segments, and a content section for displaying videos
-function movieContainer(movies, title = "") {
+function movieContainer(movies, sectionId, title = "") {
   const movieEl = document.createElement("div");
   movieEl.setAttribute("class", "movie");
 
   const moviePattern = `
     <h2>${title}</h2>
     <section class="movie-section">
-      ${movieSegment(movies)}
+      ${movieSegment(movies, sectionId)}
     </section>
   `;
 
@@ -301,10 +314,13 @@ function searchMovies(data, title) {
 }
 
 // Renders a list of movies in the movies container
-function renderMovies(data, title = "") {
+
+function renderMovies(data, title = "", sectionId) {
   const movies = data.results;
-  const movieBlock = movieContainer(movies, title);
-  moviesContainer.prepend(movieBlock); // Prepend the movie container to display it on top
+  const movieBlock = movieContainer(movies, sectionId, title);
+  const section = document.getElementById(sectionId);
+  section.innerHTML = ""; // Clear the section content
+  section.appendChild(movieBlock);
 }
 
 // Fetches movies by search query
@@ -312,7 +328,8 @@ function findMovie(value) {
   const path = "/search/movie";
   const url = createURL(path) + `&query=${value}`;
   const title = `Search Results for "${value}"`;
-  requestMovies(url, (data) => renderMovies(data, title));
+  const sectionId = "search-results";
+  requestMovies(url, (data) => renderMovies(data, title, sectionId));
 }
 
 // Fetches upcoming movies
@@ -320,7 +337,8 @@ function upcomingMovies() {
   const path = "/movie/upcoming";
   const url = createURL(path);
   const title = "UPCOMING MOVIES";
-  requestMovies(url, (data) => renderMovies(data, title));
+  const sectionId = "upcoming-movies";
+  requestMovies(url, (data) => renderMovies(data, title, sectionId));
 }
 
 // Fetches popular movies
@@ -328,23 +346,26 @@ function trending() {
   const path = "/movie/popular";
   const url = createURL(path);
   const title = "TRENDING NOW";
-  requestMovies(url, (data) => renderMovies(data, title));
+  const sectionId = "trending-movies";
+  requestMovies(url, (data) => renderMovies(data, title, sectionId));
 }
 
-//Fetch top rated movies
+// Fetches top-rated movies
 function topRated() {
   const path = "/movie/top_rated";
   const url = createURL(path);
   const title = "TOP-RATED MOVIES";
-  requestMovies(url, (data) => renderMovies(data, title));
+  const sectionId = "top-rated-movies";
+  requestMovies(url, (data) => renderMovies(data, title, sectionId));
 }
 
-//Fetch top rated movies
+// Fetches now playing movies
 function nowPlaying() {
   const path = "/movie/now_playing";
   const url = createURL(path);
   const title = "IN-THEATRES";
-  requestMovies(url, (data) => renderMovies(data, title));
+  const sectionId = "now-playing-movies";
+  requestMovies(url, (data) => renderMovies(data, title, sectionId));
 }
 
 
@@ -396,13 +417,17 @@ function createIframe(video) {
 }
 
 // Fetches movie trailers and displays them
-function displayTrailers(movieId) {
+function displayTrailers(movieId, sectionId) {
   const path = `/movie/${movieId}/videos`;
   const url = createURL(path);
 
   requestMovies(url, (data) => {
-    const details = document.getElementById(`details-${movieId}`);
-    videoTemplate(data, details);
+    const details = document.getElementById(`details-${sectionId}-${movieId}`);
+    if (details) {
+      videoTemplate(data, details);
+    } else {
+      console.log("Details container not found:", `details-${sectionId}-${movieId}`);
+    }
   });
 }
 
@@ -434,6 +459,7 @@ function videoTemplate(data, container) {
 
   container.appendChild(videoSection);
 }
+
 
 
 // Elements for random quotes section
