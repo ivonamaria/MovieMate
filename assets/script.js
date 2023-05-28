@@ -185,64 +185,42 @@ function requestMovies(url, onComplete) {
     .then((res) => res.json())
     .then((data) => {
       onComplete(data);
-      console.log(data);
     });
 }
 
 function movieSegment(movies) {
-  return movies.map((movie) => {
-    if (movie.poster_path) {
-      return `
+  return movies
+    .filter((movie) => movie.poster_path) // Filter out movies without poster_path
+    .map((movie) => `
       <img
         src="${IMG_URL + movie.poster_path}"
         alt="${movie.title}"
-        class=" h-80 w-56 cursor-pointer hover:scale-105 transition-all"
+        class="h-80 w-56 cursor-pointer hover:scale-105 transition-all"
         onclick="toggleDetails(event, ${movie.id})"
       />
       <div class="flex-none">
         <div class="relative">
           <div class="flex">
             <div id="details-${movie.id}" class="hidden text-white w-96 p-4">
-              <p class="text-2xl font-bold h-16 flex items-center ">${
-                movie.title
-              }</p>
+              <p class="text-2xl font-bold h-16 flex items-center">${movie.title}</p>
               <hr>
               <div class="text-md my-2">
-                <span class="font-bold"><i class="fa-solid fa-calendar-days"></i>&nbsp ${
-                  movie.release_date
-                }&nbsp</span>
-                <span class="text-md">${
-                  movie.vote_average > 1
-                    ? `<i class="fa-solid fa-star"></i>&nbsp; ${movie.vote_average}/10`
-                    : ""
-                }</span>
+                <span class="font-bold"><i class="fa-solid fa-calendar-days"></i>&nbsp;${movie.release_date}&nbsp;</span>
+                <span class="text-md">${movie.vote_average > 1 ? `<i class="fa-solid fa-star"></i>&nbsp; ${movie.vote_average}/10` : ""}</span>
               </div>
               <p class="text-sm text-justify h-40 overflow-y-scroll">
-              ${movie.overview}
+                ${movie.overview}
               </p>
-              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="displayTrailers(${
-                movie.id
-              })">TRAILER</button>
-              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="redirectToIMDb(event, ${
-                movie.id
-              })">IMDB</button>
+              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="displayTrailers(${movie.id})">TRAILER</button>
+              <button type="button" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" onclick="redirectToIMDb(event, ${movie.id})">IMDB</button>
             </div>
           </div>
-    </div>
-  </div>`;
-    }
-  });
+        </div>
+      </div>`
+    );
 }
 
-// Sends a request to the TMDb API with the given URL and handles the response
-function requestMovies(url, onComplete) {
-  fetch(url)
-    .then((res) => res.json())
-    .then((data) => {
-      onComplete(data);
-      console.log(data);
-    });
-}
+
 
 // Retrieves the IMDb ID for a movie using the TMDb API
 function getImdbId(movieId, onComplete) {
@@ -267,14 +245,32 @@ function redirectToIMDb(event, movieId) {
   });
 }
 
+// Stores a reference to the currently open movie details
+let currentDetails = null;
 
-
+// Toggles the details section for the specified movie ID
 function toggleDetails(event, movieId) {
   const details = document.getElementById(`details-${movieId}`);
   details.classList.toggle("hidden");
+
+  // Close the previous details if exists
+  if (currentDetails && currentDetails !== details) {
+    currentDetails.classList.add("hidden");
+  }
+
+  // Update the reference to the current details
+  currentDetails = details;
 }
 
-onclick = "toggleDetails(event, ${movie.id})";
+// Handles the click event on movie images
+document.onclick = function (event) {
+  const target = event.target;
+
+  if (target.tagName.toLowerCase() === "img") {
+    const movieId = target.dataset.movieId;
+    toggleDetails(movieId);
+  }
+};
 
 // Creates the HTML for a movie container, which includes a title, a section for movie segments, and a content section for displaying videos
 function movieContainer(movies, title = "") {
@@ -286,9 +282,6 @@ function movieContainer(movies, title = "") {
     <section class="movie-section">
       ${movieSegment(movies)}
     </section>
-    <div class="content">
-      <div id="content-close" type="search"></div>
-    </div>
   `;
 
   movieEl.innerHTML = moviePattern;
@@ -327,7 +320,7 @@ function upcomingMovies() {
 }
 
 // Fetches popular movies
-function popularMovies() {
+function inTheatres() {
   const path = "/movie/popular";
   const url = createURL(path);
   const title = "IN-THEATRES";
@@ -337,7 +330,8 @@ function popularMovies() {
 // Initial movie search and fetches
 findMovie("Avengers");
 upcomingMovies();
-popularMovies();
+inTheatres();
+
 
 // Handles search button click event
 searchButton.onclick = function (e) {
@@ -378,42 +372,7 @@ function createIframe(video) {
   return iframe;
 }
 
-// Stores a reference to the current open video section
-let currentVideoSection = null;
-
-// Handles the click event on movie images
-document.onclick = function (event) {
-  const target = event.target;
-
-  if (target.tagName.toLowerCase() === "img") {
-    const movieId = target.dataset.movieId;
-    console.log("Movie ID: ", movieId);
-
-    const section = target.parentElement; // section
-    const content = section.nextElementSibling; // content
-
-    content.classList.add("content-display");
-
-    if (target.id === "content-close") {
-      content.classList.remove("content-display");
-    }
-
-    const path = `/movie/${movieId}/videos`;
-    const url = createURL(path);
-    requestMovies(url, (data) => {
-      videoTemplate(data, content);
-    });
-  }
-};
 // Fetches movie trailers and displays them
-function displayTrailers(movieId) {
-  const path = `/movie/${movieId}/videos`;
-  const url = createURL(path);
-  requestMovies(url, (data) => {
-    videoTemplate(data);
-  });
-}
-
 function displayTrailers(movieId) {
   const path = `/movie/${movieId}/videos`;
   const url = createURL(path);
@@ -430,7 +389,7 @@ function videoTemplate(data, container) {
   videoSection.classList.add("video-section");
 
   const closeButton = document.createElement("button");
-  closeButton.innerHTML = "X";
+  closeButton.innerHTML = "X CLOSE";
   closeButton.addEventListener("click", () => {
     videoSection.remove();
   });
@@ -452,6 +411,7 @@ function videoTemplate(data, container) {
 
   container.appendChild(videoSection);
 }
+
 
 // Elements for random quotes section
 const quotesEl = document.querySelector("#quotes");
