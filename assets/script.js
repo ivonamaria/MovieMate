@@ -169,10 +169,12 @@ const API_KEY = "11d709982d73ca3b61226bf899b78a2b";
 const API_URL = "https://api.themoviedb.org/3";
 
 // DOM elements
+
 const searchButton = document.querySelector("#search");
 const input = document.querySelector("#inputMovie");
 const movieShow = document.querySelector("#results-nowshowing");
 const moviesContainer = document.querySelector("#movie-container");
+
 
 // Creates a full API URL using the given path
 function createURL(path) {
@@ -298,6 +300,7 @@ function movieContainer(movies, sectionId, title = "") {
   const movieEl = document.createElement("div");
   movieEl.setAttribute("class", "movie");
 
+
   const moviePattern = `
     <h2>${title}</h2>
     <section class="movie-section">
@@ -327,6 +330,7 @@ function renderMovies(data, title = "", sectionId) {
   section.appendChild(movieBlock);
 }
 
+
 // Fetches movies by search query
 function findMovie(value) {
   const path = "/search/movie";
@@ -354,6 +358,7 @@ function trending() {
   requestMovies(url, (data) => renderMovies(data, title, sectionId));
 }
 
+
 // Fetches top-rated movies
 function topRated() {
   const path = "/movie/top_rated";
@@ -362,6 +367,7 @@ function topRated() {
   const sectionId = "top-rated-movies";
   requestMovies(url, (data) => renderMovies(data, title, sectionId));
 }
+
 
 // Fetches now playing movies
 function nowPlaying() {
@@ -463,7 +469,6 @@ function videoTemplate(data, container) {
 
   container.appendChild(videoSection);
 }
-
 
 
 // Elements for random quotes section
