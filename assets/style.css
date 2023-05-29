@@ -1,142 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* main styles */
 * {
-    box-sizing: border-box;
-	background-color: black !important;
+	box-sizing: border-box;
+	background-color: black;
+	font-family: Nunito;
 }
 
-
-/* font style */
-
-body {
-    font-family: Nunito !important;
-	background-color: rgb(21, 21, 21);
+/* <a> hover font style */
+a:hover {
+	color: #812e3b;
+	text-decoration: none;
 }
 
-/* sticky navbar properties */
-
-.navbar {
-    position: sticky !important;
-    top: 0!important;
-    z-index: 10;
-    background-color: rgb(21, 21, 21) !important;
-	padding: 0%;
-	font-size: 20px;
+/* nav-bar */
+nav {
+	z-index: 999;
 }
 
-.container-fluid {
-	height: 120px;
-}
-/* logo style */
-
-.logo {
-    width: 80px;
-    height: 80px;
-}
-
-span {
-	text-transform: uppercase;
-	font-size: 22px;
-	padding: 10px;
-	transition: transform 0.5s ease-out;
-	transition: color 3.s ;
-}
-
-span:hover {
-	color:#9c4754;
-
-}
-
-/* logo hover */
-
-img:hover {
-	margin-left: 0 40px;
-	transform: scale(1.2);
-	cursor: pointer;
-	transition: transform 0.5s ease-out;
-}
-
-button {
-	color: #fff;
-}
-
-/* nav-bar color style properties */
-
-.navbar-toggler, .nav-link {
-    color: rgb(255, 255, 255) !important;
-}
-
-.navbar-toggler, .nav-link:hover {
-    color: #9c4754 !important;
-}
-
-.nav-link:hover {
-	color:#f3f6f3
-}
-
-.me-2 {
-    width: 250px;
-}
-
-.form-control:focus {
-    color: white;
-    background-color: #fff;
-    border-color: #42000A;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(98, 19, 18, 0.25);
-}
-
-
-.navbar-toggler-icon {
-    color: rgb(23, 23, 23);
-}
-
-/* search button styles */
-
-.btn-success {
---bs-btn-color: #000;
---bs-btn-bg: #42000A;
---bs-btn-border-color: #000000;
-}
-
-.btn:hover {
-    color: #000000;
-    background-color: #812e3b !important;
-    border-color: #812e3b;
+/* movie section styles */
+h2 {
+	font-size: x-large;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin: 10px;
+	border: #812e3b solid 2px;
+	border-radius: 10px;
 }
 
 /* IMDb search results styles */
-
 #result {
+	position: absolute;
+	top: 110px;
+	left: 25%;
+	height: 70%;
 	width: 52%;
 	margin: 0 auto;
 	text-align: left;
 	border-left: 1px solid rgb(211, 206, 206);
 	border-right: 1px solid rgb(205, 202, 202);
 	border-radius: 10px;
+	overflow: scroll;
+	z-index: 99;
+	display: none;
 }
 
 .resultRow {
-	padding: 2px 15px;
 	border-bottom: 1px solid white;
 	display: block;
-	border-radius: 10px;
 	color: rgb(221, 216, 216);
-}
-
-/* Reusults description hover */
-
-a:hover {
-	color: #812e3b;
-	text-decoration: none;
+	overflow: scroll;
 }
 
 .poster {
 	background-image: url('../img/noimage.png');
 	display: inline-block;
-	width: 40px;
-	height: 54px;
+	width: 60px;
+	height: 84px;
+	margin: 10px;
 	display: inline-block;
-	background-size: contain;
+	background-size: cover;
 	background-repeat: no-repeat;
+	background-position: center;
 	vertical-align: middle;
 }
 
@@ -149,64 +78,44 @@ a:hover {
 }
 
 
-h3 {
-	text-transform: uppercase;
-	color: rgb(245, 241, 241);
-}
-
-#favourites {
-	display: flex;
-	gap: 3em;
-	}
-
-#quotes {
-	font-size: 20px;
-	color: rgb(211, 207, 207);
-}
-
-@media screen and (max-width: 768px) {
-    .resultRow {
-        width: 100% !important;
-    }
-
-    #result {
-        width: 100% !important;
-    }
-    
-}
-
-section {
-	display: flex;
-	width: 100%;
-	overflow-x: auto;
-	
-}
-
-section img {
-	width: 200px;
-	padding: 20px 10px;
-	z-index: 1;
-}
-
+/* main search styles */
 #results-nowshowing {
 	margin-top: 20px;
 }
 
-.content {
-	display: none;
-}
-
-.content div {
+/* movie card styles */
+.movie-section  {
 	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-	align-items: center;
-	margin: 10px;
-	padding: 10px 10px;
+	width: 100%;
 	overflow-x: auto;
 }
 
-.content-display {
-	display: block;
+.movie-section img {
+	margin: 20px 5px;
+	z-index: 1;
 }
 
+/* trailer section */
+.video-section > div {
+	display: flex;
+	margin: 10px;
+	width: 180%;
+	overflow-x: scroll;
+	translate: -244px;
+	scroll-behavior: smooth;
+}
+
+
+@media screen and (max-width: 768px) {
+		/* IMDB search result */
+		.resultRow {
+        width: 100%;
+    }
+
+    #result {
+        width: 100%;
+				height: 50%;
+				left: 0;
+				top: 110px;
+    }   
+}
