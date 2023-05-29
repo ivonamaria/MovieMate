@@ -210,7 +210,7 @@ function movieSegment(movies, sectionId) {
               }</p>
               <hr>
               <div class="text-md my-2">
-                <span class="font-bold"><i class="fa-solid fa-calendar-days"></i>&nbsp;${
+                <span class="font-bold"><i class="fa-solid fa-calendar-days fill-black"></i>&nbsp; ${
                   movie.release_date
                 }&nbsp;</span>
                 <span class="text-md">${
@@ -235,6 +235,10 @@ function movieSegment(movies, sectionId) {
     );
 }
 
+let message =
+  "Lights, camera, action! Get ready for a thrilling cinematic experience! 🍿💥\n\nIf you're curious about the magic behind this site, feel free to reach out. We're always eager to hear your suggestions and ideas to make this movie journey even more extraordinary. Remember, in this theater of possibilities, your feedback shines like a shooting star! ✨🎬\n\nAnd as we embark on this adventure together, let me leave you with some iconic movie quotes to ignite your imagination:\n\n'May the Force be with you.' - Star Wars\n'Here's looking at you, kid.' - Casablanca\n'I'll be back.' - The Terminator\n'You can't handle the truth!' - A Few Good Men\n'Life is like a box of chocolates; you never know what you're gonna get.' - Forrest Gump\n\nNow, grab your popcorn, sit back, and let the reel of excitement begin! Enjoy the show! 🌟🎥";
+
+console.log("🎥", message);
 
 
 // Retrieves the IMDb ID for a movie using the TMDb API
@@ -327,7 +331,7 @@ function renderMovies(data, title = "", sectionId) {
 function findMovie(value) {
   const path = "/search/movie";
   const url = createURL(path) + `&query=${value}`;
-  const title = `Search Results for "${value}"`;
+  const title = `Your Search`;
   const sectionId = "search-results";
   requestMovies(url, (data) => renderMovies(data, title, sectionId));
 }
