@@ -85,38 +85,44 @@
               <h1 class="mb-3 text-white text-3xl md:text-5xl font-bold">Lights. Camera. Movies.</h1>
               <h3 class="mb-8 text-white text-lg text-justify lg:text-center">
               Welcome to Movie Mate, your ultimate destination for film enthusiasts. Discover the latest, popular, and trending movies all in one place. Try out the IMDb search engine for additional details! Join us on this cinematic journey and unleash your love for movies.</h3>
-              <div class="flex flex-col md:flex-row items-center justify-center">
-                <input type="text" class="bg-white text-black py-2 px-4 w-full md:w-80 rounded-md border-2 focus:outline-none focus:border-pink-900 mb-4 md:mb-0 md:mr-4" placeholder="Search for any movie..." id="inputMovie">
-                <button id="search" class="bg-pink-900 text-white py-2 px-4 rounded-md hover:bg-rose-900 focus:outline-none" type="submit"><i class="fa fa-search fill-white bg-pink-900" aria-hidden="true"></i> Search</button>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-<!-- Movie containers -->
-<div id="movie-container">
-  <div id="search-results"></div>
-  <div id="now-playing-movies"></div>
-  <div id="upcoming-movies"></div>
-  <div id="trending-movies"></div>
-  <div id="top-rated-movies"></div>
-</div>
+      <!-- movie search engine -->
+      <div class="flex flex-col md:flex-row items-center justify-center m-6">
+        <input type="text" class="bg-white text-black py-2 px-4 w-full md:w-80 rounded-md border-2 focus:outline-none focus:border-pink-900 mb-4 md:mb-0 md:mr-4" placeholder="Search for any movie..." id="inputMovie">
+        <button id="search" class="bg-pink-900 text-white py-2 px-4 rounded-md hover:bg-rose-900 focus:outline-none" type="submit"><i class="fa fa-search fill-white bg-pink-900" aria-hidden="true"></i> Search</button>
+      </div>
+      <!-- Movie containers -->
+      <div id="movie-container">
+        <div id="search-results"></div>
+        <div id="now-playing-movies"></div>
+        <div id="upcoming-movies"></div>
+        <div id="trending-movies"></div>
+        <div id="top-rated-movies"></div>
+      </div>
 
-      
       <!-- Main search results -->
       <div id="results-nowshowing"></div>
 
-    </main>
+      <!-- Favourites section -->
+      <div id="favorites-section">
+        <h2>Your Favorites</h2>
+        <div id="favorites-container"></div>
+      </div>
 
-    <!-- Section for Quotes -->
-    <div>
-        <div class="text-center p-10" id="movie-quotes">
-          <h3 class="m-5 underline text-white text-3xl">QUOTES FROM MOVIE INDUSTRY</h3>
-          <h4 id="quotes"></h4>
-          <button id="nextQuote" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" type="submit">GENERATE RANDOM QUOTES</button>
-        </div>
-    </div> 
+      <!-- Section for Quotes -->
+      <div>
+          <div class="text-center p-10" id="movie-quotes">
+            <h3 class="m-5 underline text-white text-3xl">QUOTES FROM MOVIE INDUSTRY</h3>
+            <h4 id="quotes"></h4>
+            <button id="nextQuote" class="bg-pink-900 cursor-pointer text-white rounded-md px-4 py-2 m-2 hover:bg-rose-950" type="submit">GENERATE RANDOM QUOTES</button>
+          </div>
+      </div> 
+
+    </main>
 
     <!-- Footer -->
     <footer>

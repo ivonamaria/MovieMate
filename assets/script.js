@@ -207,9 +207,10 @@ function movieSegment(movies, sectionId) {
             <div id="details-${sectionId}-${
         movie.id
       }" class="hidden text-white w-96 p-4">
-              <p class="text-2xl font-bold h-16 flex items-center">${
+              <span class="text-2xl font-bold h-16 flex items-center">${
                 movie.title
-              }</p>
+              }
+              </span>
               <hr>
               <div class="text-md my-2">
                 <span class="font-bold"><i class="fa-solid fa-calendar-days fill-black"></i>&nbsp; ${
@@ -220,6 +221,9 @@ function movieSegment(movies, sectionId) {
                     ? `<i class="fa-solid fa-star"></i>&nbsp; ${movie.vote_average}/10`
                     : ""
                 }</span>
+                <i id="favorite-${sectionId}-${movie.id}" class="favorite-icon far fa-heart p-2 cursor-pointer tooltip">
+                  <span class="tooltiptext font-bold">Add Favourites</span>
+                </i>
               </div>
               <p class="text-sm text-justify h-40 overflow-y-scroll">
                 ${movie.overview}
@@ -236,11 +240,6 @@ function movieSegment(movies, sectionId) {
       </div>`
     );
 }
-
-let message =
-  "Lights, camera, action! Get ready for a thrilling cinematic experience! 🍿💥\n\nIf you're curious about the magic behind this site, feel free to reach out. We're always eager to hear your suggestions and ideas to make this movie journey even more extraordinary. Remember, in this theater of possibilities, your feedback shines like a shooting star! ✨🎬\n\nAnd as we embark on this adventure together, let me leave you with some iconic movie quotes to ignite your imagination:\n\n'May the Force be with you.' - Star Wars\n'Here's looking at you, kid.' - Casablanca\n'I'll be back.' - The Terminator\n'You can't handle the truth!' - A Few Good Men\n'Life is like a box of chocolates; you never know what you're gonna get.' - Forrest Gump\n\nNow, grab your popcorn, sit back, and let the reel of excitement begin! Enjoy the show! 🌟🎥";
-
-console.log("🎥", message);
 
 
 // Retrieves the IMDb ID for a movie using the TMDb API
@@ -274,12 +273,12 @@ function toggleDetails(event, movieId, sectionId) {
   const details = document.getElementById(`details-${sectionId}-${movieId}`);
   if (details) {
     details.classList.toggle("hidden");
-
+    
     // Close the previous details if exists
     if (currentDetails && currentDetails !== details) {
       currentDetails.classList.add("hidden");
     }
-
+    
     // Update the reference to the current details
     currentDetails = details;
   }
@@ -288,7 +287,7 @@ function toggleDetails(event, movieId, sectionId) {
 // Handles the click event on movie images
 document.onclick = function (event) {
   const target = event.target;
-
+  
   if (target.tagName.toLowerCase() === "img") {
     const movieId = target.dataset.movieId;
     toggleDetails(event, movieId);
@@ -299,15 +298,14 @@ document.onclick = function (event) {
 function movieContainer(movies, sectionId, title = "") {
   const movieEl = document.createElement("div");
   movieEl.setAttribute("class", "movie");
-
-
+  
   const moviePattern = `
-    <h2>${title}</h2>
-    <section class="movie-section">
-      ${movieSegment(movies, sectionId)}
-    </section>
+  <h2>${title}</h2>
+  <section class="movie-section">
+  ${movieSegment(movies, sectionId)}
+  </section>
   `;
-
+  
   movieEl.innerHTML = moviePattern;
   return movieEl;
 }
@@ -320,8 +318,11 @@ function searchMovies(data, title) {
   movieShow.appendChild(movieBlock);
 }
 
-// Renders a list of movies in the movies container
 
+
+
+
+// Renders a list of movies in the movies container
 function renderMovies(data, title = "", sectionId) {
   const movies = data.results;
   const movieBlock = movieContainer(movies, sectionId, title);
@@ -386,12 +387,11 @@ trending();
 topRated();
 nowPlaying();
 
-
 // Handles search button click event
 searchButton.onclick = function (e) {
   e.preventDefault();
   const value = input.value.trim();
-
+  
   if (value) {
     movieShow.innerHTML = ""; // Clear previous search results
     findMovie(value);
@@ -410,10 +410,114 @@ input.addEventListener("keydown", function (event) {
       movieShow.innerHTML = ""; // Clear previous search results
       findMovie(value);
       input.value = "";
-      console.log("Value: ", value);
     }
   }
 });
+
+// empty array to add favourites
+let movies = [];
+
+// to prevent duplicate in favourites
+function toggleFavorite(movieId) {
+  const favorites = getFavorites();
+  const index = favorites.findIndex((movie) => movie.id === movieId);
+  if (index > -1) {
+    // Movie is already in favorites, remove it
+    favorites.splice(index, 1);
+  } else {
+    // Movie is not in favorites, find the movie details and add it
+    const movie = movies.find((movie) => movie.id === movieId);
+    if (movie) {
+      favorites.push(movie);
+    }
+  }
+  setFavorites(favorites);
+}
+
+
+
+//to retrieve the items in the local storage
+function getFavorites() {
+  const favorites = localStorage.getItem("favorites");
+  return favorites ? JSON.parse(favorites) : [];
+}
+
+// to store the items in the local storage
+function setFavorites(favorites) {
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+// change the heart icon to solid and add the items to local storage
+document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (target.classList.contains("favorite-icon")) {
+      const iconId = target.id;
+      const movieId = extractMovieIdFromIconId(iconId);
+      toggleFavorite(movieId);
+      target.classList.toggle("fas");
+      console.log(movieId);
+    }
+  });
+});
+
+// Function to extract movie ID from the icon's ID
+function extractMovieIdFromIconId(iconId) {
+  const parts = iconId.split("-");
+  const movieId = parts[parts.length - 1];
+  return movieId;
+}
+
+
+function updateFavoritesSection() {
+  const favorites = getFavorites();
+  const favoritesContainer = document.getElementById("favorites-container");
+  if (favorites.length === 0) {
+    // No favorites, hide the section
+    favoritesContainer.innerHTML = "";
+    document.getElementById("favorites-section").classList.add("hidden");
+  } else {
+    // Clear previous favorites
+    favoritesContainer.innerHTML = "";
+
+    // Find the favorite movies based on their IDs
+    const favoriteMovies = movies.filter((movie) =>
+      favorites.some((favorite) => favorite.id === movie.id)
+    );
+
+    // Create favorite movie segments
+    const favoriteSegments = movieSegment(favoriteMovies, "favorites");
+    favoritesContainer.innerHTML = favoriteSegments.join("");
+    document.getElementById("favorites-section").classList.remove("hidden");
+  }
+}
+
+
+function displayMovies(url, sectionId) {
+  requestMovies(url, (data) => {
+    const fetchedMovies = data.results.map((movie) => {
+      return {
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+        release_date: movie.release_date,
+        vote_average: movie.vote_average,
+        overview: movie.overview,
+        // Add any other properties you want to store
+      };
+    });
+    movies = fetchedMovies; // Update the movies array with the fetched movies
+    const movieSegments = movieSegment(fetchedMovies, sectionId);
+    const section = document.getElementById(sectionId);
+    section.innerHTML = movieSegments.join("");
+    updateFavoritesSection(); // Update the favorites section
+  });
+}
+
+
+// Call updateFavoritesSection every 2 seconds
+setInterval(updateFavoritesSection, 2000);
+
 
 // Creates an iframe element for embedding YouTube videos
 function createIframe(video) {
@@ -422,7 +526,6 @@ function createIframe(video) {
   iframe.width = 300;
   iframe.height = 200;
   iframe.allowFullscreen = true;
-
   return iframe;
 }
 
@@ -430,7 +533,7 @@ function createIframe(video) {
 function displayTrailers(movieId, sectionId) {
   const path = `/movie/${movieId}/videos`;
   const url = createURL(path);
-
+  
   requestMovies(url, (data) => {
     const details = document.getElementById(`details-${sectionId}-${movieId}`);
     if (details) {
@@ -441,35 +544,34 @@ function displayTrailers(movieId, sectionId) {
   });
 }
 
+// Container for trailers
 function videoTemplate(data, container) {
   const videos = data.results;
   const videoSection = document.createElement("div");
   videoSection.classList.add("video-section");
-
+  
   const closeButton = document.createElement("button");
   closeButton.innerHTML = "X CLOSE";
   closeButton.addEventListener("click", () => {
     videoSection.remove();
   });
   videoSection.appendChild(closeButton);
-
+  
   const iframeContainer = document.createElement("div");
   videos.forEach((video) => {
     const iframe = createIframe(video);
     iframeContainer.appendChild(iframe);
   });
-
+  
   videoSection.appendChild(iframeContainer);
-
+  
   // Remove the existing video section if it exists in the container
   const existingVideoSection = container.querySelector(".video-section");
   if (existingVideoSection) {
     existingVideoSection.remove();
   }
-
   container.appendChild(videoSection);
 }
-
 
 // Elements for random quotes section
 const quotesEl = document.querySelector("#quotes");
@@ -477,7 +579,6 @@ const nextQuoteEl = document.querySelector("#nextQuote");
 
 // Apply Tailwind classes to the elements
 quotesEl.classList.add("text-lg", "font-bold", "text-white", "my-4");
-
 
 // Fetches a random quote from an API and displays it on the page
 function quote() {
@@ -487,12 +588,12 @@ function quote() {
       "X-Api-Key": "4AmTehiaKN3T/adJXOG83Q==YFsdIoPitDwwKv7D",
     },
   })
-    .then((res) => res.json())
-    .then((quote) => {
-      let generatedQuote = quote[0].quote;
-      let generatedAuthor = quote[0].author;
-      quotesEl.innerHTML = `"<i>${generatedQuote}</i>" - ${generatedAuthor}`;
-    });
+  .then((res) => res.json())
+  .then((quote) => {
+    let generatedQuote = quote[0].quote;
+    let generatedAuthor = quote[0].author;
+    quotesEl.innerHTML = `"<i>${generatedQuote}</i>" - ${generatedAuthor}`;
+  });
 }
 
 // Displays a random quote
@@ -503,3 +604,9 @@ nextQuoteEl.addEventListener("click", function (event) {
   event.preventDefault();
   quote();
 });
+
+// console message
+let message =
+  "Lights, camera, action! Get ready for a thrilling cinematic experience! 🍿💥\n\nIf you're curious about the magic behind this site, feel free to reach out. We're always eager to hear your suggestions and ideas to make this movie journey even more extraordinary. Remember, in this theater of possibilities, your feedback shines like a shooting star! ✨🎬\n\nAnd as we embark on this adventure together, let me leave you with some iconic movie quotes to ignite your imagination:\n\n'Life is like a box of chocolates; you never know what you're gonna get.' - Forrest Gump\n\nNow, grab your popcorn, sit back, and let the reel of excitement begin! Enjoy the show! 🌟🎥";
+
+console.log("🎥", message);
