@@ -447,6 +447,7 @@ function setFavorites(favorites) {
   localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
+
 // change the heart icon to solid and add the items to local storage
 document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", (event) => {
