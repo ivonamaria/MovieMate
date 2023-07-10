@@ -205,8 +205,8 @@ function movieSegment(movies, sectionId) {
         <div class="relative">
           <div class="flex">
             <div id="details-${sectionId}-${
-        movie.id
-      }" class="hidden text-white w-96 p-4">
+                movie.id
+              }" class="hidden text-white w-96 p-4">
               <span class="text-2xl font-bold h-16 flex items-center">${
                 movie.title
               }
@@ -221,7 +221,9 @@ function movieSegment(movies, sectionId) {
                     ? `<i class="fa-solid fa-star"></i>&nbsp; ${movie.vote_average}/10`
                     : ""
                 }</span>
-                <i id="favorite-${sectionId}-${movie.id}" class="favorite-icon far fa-heart p-2 cursor-pointer tooltip">
+                <i id="details-${sectionId}-${
+                  movie.id
+                }" class="favorite-icon far fa-heart p-2 cursor-pointer tooltip">
                   <span class="tooltiptext font-bold">Add Favourites</span>
                 </i>
               </div>
@@ -238,7 +240,8 @@ function movieSegment(movies, sectionId) {
           </div>
         </div>
       </div>`
-    );
+    )
+    .join("");
 }
 
 
@@ -305,7 +308,6 @@ function movieContainer(movies, sectionId, title = "") {
   ${movieSegment(movies, sectionId)}
   </section>
   `;
-  
   movieEl.innerHTML = moviePattern;
   return movieEl;
 }
@@ -318,10 +320,6 @@ function searchMovies(data, title) {
   movieShow.appendChild(movieBlock);
 }
 
-
-
-
-
 // Renders a list of movies in the movies container
 function renderMovies(data, title = "", sectionId) {
   const movies = data.results;
@@ -330,7 +328,6 @@ function renderMovies(data, title = "", sectionId) {
   section.innerHTML = ""; // Clear the section content
   section.appendChild(movieBlock);
 }
-
 
 // Fetches movies by search query
 function findMovie(value) {
@@ -458,6 +455,7 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleFavorite(movieId);
       target.classList.toggle("fas");
       console.log(movieId);
+      console.log("test");
     }
   });
 });
