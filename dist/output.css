@@ -946,6 +946,10 @@ video {
   width: 24rem;
 }
 
+.w-auto {
+  width: auto;
+}
+
 .w-full {
   width: 100%;
 }
@@ -953,10 +957,6 @@ video {
 .w-max {
   width: -moz-max-content;
   width: max-content;
-}
-
-.w-auto {
-  width: auto;
 }
 
 .max-w-4xl {
@@ -2818,6 +2818,10 @@ nav {
   visibility: visible;
 }
 
+#hero {
+  background-image: url('../images/movie-mate.webp');
+}
+
 /* movie section styles */
 
 h2 {
@@ -2903,7 +2907,7 @@ h2 {
   margin: 10px;
   width: 180%;
   overflow-x: scroll;
-  translate: -244px;
+  transform:  translate(-244px);
   scroll-behavior: smooth;
 }
 
@@ -3040,14 +3044,6 @@ h2 {
 
   .md\:w-80 {
     width: 20rem;
-  }
-
-  .md\:w-auto {
-    width: auto;
-  }
-
-  .md\:max-w-md {
-    max-width: 28rem;
   }
 
   .md\:flex-row {

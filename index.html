@@ -11,7 +11,7 @@
       <link rel="icon" href="./images/white-logo.svg" type="image/x-icon">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito" />
       <link rel="stylesheet" href="./assets/style.css">
-      <link rel="stylesheet" href="../dist/output.css">
+      <link rel="stylesheet" href="./dist/output.css">
   </head>
 
   <body>
@@ -20,7 +20,7 @@
     <nav class="fixed top-0 left-0 w-full p-2">
       <div class="flex items-center justify-around py-4">
           <a class="flex items-center" href="#">
-          <img src="../images/white-logo.svg" alt="movie-mate-logo" class="w-16 h-16">
+          <img src="./images/white-logo.svg" alt="movie-mate-logo" class="w-16 h-16">
           <span class="hidden ml-2 text-white text-xl font-semibold md:inline hover:text-rose-900">Movie Mate</span>
           </a>
           <a href="#" class="p-2">
@@ -47,7 +47,7 @@
                   </a>
                 </li>
             </ul>
-            <button class="ml-4 md:hidden text-white focus:outline-none" id="hamburgerBtn" onclick="toggleMobileMenu()">
+            <button title="nav-bar" type="button" class="ml-4 md:hidden text-white focus:outline-none" id="hamburgerBtn" onclick="toggleMobileMenu()">
                 <!-- Show the hamburger menu on mobile view -->
                 <svg class="w-12 h-12" viewBox="0 0 24 24" fill="none">
                   <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -79,7 +79,7 @@
 
       <!-- Hero Section with search button--->
       <div class="relative ">
-        <div class="text-center bg-center bg-cover bg-no-repeat" style="background-image: url('../images/movie-mate.webp')">
+        <div id="hero" class="text-center bg-center bg-cover bg-no-repeat">
           <div class="flex justify-center items-center min-h-screen bg-transparent ">
             <div class="text-center text-white border-pink-900 border-2 rounded-lg p-6 m-6">
               <h1 class="mb-3 text-white text-3xl md:text-5xl font-bold">Lights. Camera. Movies.</h1>
@@ -127,13 +127,13 @@
     <!-- Footer -->
     <footer>
       <div class="flex justify-center items-center p-3 border-pink-900 border-2">
-        <img src="../images/white-logo.svg" alt="movie-mate-logo" class="w-16 h-16">
+        <img src="./images/white-logo.svg" alt="movie-mate-logo" class="w-16 h-16">
         <a class="text-white text-lg font-semibold ml-4">Movie Mate with <i class="fa-solid fa-heart animate-pulse"></i> by Chaitanya Varma</a>
         <div class="ml-auto">
-          <a href="https://github.com/curiousPirate" class="text-white text-2xl mx-2" target="_blank" rel="noopener noreferrer">
+          <a title="github" href="https://github.com/curiousPirate" class="text-white text-2xl mx-2" target="_blank" rel="noopener noreferrer">
             <i class="fab fa-github"></i>
           </a>
-          <a href="mailto:gchaitanya.369@gmail.com" class="text-white text-2xl mx-2">
+          <a title="email" href="mailto:gchaitanya.369@gmail.com" class="text-white text-2xl mx-2">
             <i class="far fa-envelope"></i>
           </a>
         </div>
