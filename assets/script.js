@@ -205,8 +205,8 @@ function movieSegment(movies, sectionId) {
         <div class="relative">
           <div class="flex">
             <div id="details-${sectionId}-${
-                movie.id
-              }" class="hidden text-white w-96 p-4">
+        movie.id
+      }" class="hidden text-white w-96 p-4">
               <span class="text-2xl font-bold h-16 flex items-center">${
                 movie.title
               }
@@ -221,11 +221,14 @@ function movieSegment(movies, sectionId) {
                     ? `<i class="fa-solid fa-star"></i>&nbsp; ${movie.vote_average}/10`
                     : ""
                 }</span>
-                <i id="details-${sectionId}-${
-                  movie.id
-                }" class="favorite-icon far fa-heart p-2 cursor-pointer tooltip">
-                  <span class="tooltiptext font-bold">Add Favourites</span>
-                </i>
+<i id="details-${sectionId}-${
+        movie.id
+      }" class="favorite-icon far fa-heart p-2 cursor-pointer tooltip" onclick="toggleFavorite(${JSON.stringify(
+        movie
+      )})">
+  <span class="tooltiptext font-bold">Add Favourites</span>
+</i>
+
               </div>
               <p class="text-sm text-justify h-40 overflow-y-scroll">
                 ${movie.overview}
@@ -411,39 +414,33 @@ input.addEventListener("keydown", function (event) {
   }
 });
 
-// empty array to add favourites
-let movies = [];
+// Initialize an empty array for favorites
+let favorites = [];
 
-// to prevent duplicate in favourites
-function toggleFavorite(movieId) {
-  const favorites = getFavorites();
-  const index = favorites.findIndex((movie) => movie.id === movieId);
+// Function to toggle favorite status
+function toggleFavorite(movieString) {
+  const movie = JSON.parse(movieString);
+  const index = favorites.findIndex((favMovie) => favMovie.id === movie.id);
   if (index > -1) {
     // Movie is already in favorites, remove it
     favorites.splice(index, 1);
   } else {
-    // Movie is not in favorites, find the movie details and add it
-    const movie = movies.find((movie) => movie.id === movieId);
-    if (movie) {
-      favorites.push(movie);
-    }
+    // Movie is not in favorites, add it
+    favorites.push(movie);
   }
   setFavorites(favorites);
 }
 
-
-
-//to retrieve the items in the local storage
+// Function to retrieve favorites from local storage
 function getFavorites() {
   const favorites = localStorage.getItem("favorites");
   return favorites ? JSON.parse(favorites) : [];
 }
 
-// to store the items in the local storage
+// Function to store favorites in local storage
 function setFavorites(favorites) {
   localStorage.setItem("favorites", JSON.stringify(favorites));
 }
-
 
 // change the heart icon to solid and add the items to local storage
 document.addEventListener("DOMContentLoaded", () => {
@@ -451,72 +448,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = event.target;
     if (target.classList.contains("favorite-icon")) {
       const iconId = target.id;
-      const movieId = extractMovieIdFromIconId(iconId);
-      toggleFavorite(movieId);
+      const movieString = extractMovieFromIconId(iconId, movies);
+      toggleFavorite(movieString);
       target.classList.toggle("fas");
-      console.log(movieId);
-      console.log("test");
     }
   });
 });
 
-// Function to extract movie ID from the icon's ID
-function extractMovieIdFromIconId(iconId) {
+// Function to extract movie object from the icon's ID
+function extractMovieFromIconId(iconId, movies) {
   const parts = iconId.split("-");
   const movieId = parts[parts.length - 1];
-  return movieId;
+  const movie = movies.find((movie) => movie.id === movieId);
+  return JSON.stringify(movie);
 }
-
 
 function updateFavoritesSection() {
   const favorites = getFavorites();
   const favoritesContainer = document.getElementById("favorites-container");
+  favoritesContainer.innerHTML = "";
   if (favorites.length === 0) {
     // No favorites, hide the section
-    favoritesContainer.innerHTML = "";
     document.getElementById("favorites-section").classList.add("hidden");
   } else {
-    // Clear previous favorites
-    favoritesContainer.innerHTML = "";
-
-    // Find the favorite movies based on their IDs
-    const favoriteMovies = movies.filter((movie) =>
-      favorites.some((favorite) => favorite.id === movie.id)
-    );
-
     // Create favorite movie segments
-    const favoriteSegments = movieSegment(favoriteMovies, "favorites");
+    const favoriteSegments = movieSegment(favorites, "favorites");
     favoritesContainer.innerHTML = favoriteSegments.join("");
     document.getElementById("favorites-section").classList.remove("hidden");
   }
 }
 
-
-function displayMovies(url, sectionId) {
-  requestMovies(url, (data) => {
-    const fetchedMovies = data.results.map((movie) => {
-      return {
-        id: movie.id,
-        title: movie.title,
-        poster_path: movie.poster_path,
-        release_date: movie.release_date,
-        vote_average: movie.vote_average,
-        overview: movie.overview,
-        // Add any other properties you want to store
-      };
-    });
-    movies = fetchedMovies; // Update the movies array with the fetched movies
-    const movieSegments = movieSegment(fetchedMovies, sectionId);
-    const section = document.getElementById(sectionId);
-    section.innerHTML = movieSegments.join("");
-    updateFavoritesSection(); // Update the favorites section
-  });
-}
-
-
-// Call updateFavoritesSection every 2 seconds
-setInterval(updateFavoritesSection, 2000);
-
+// Call updateFavoritesSection when the DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  movies = []; // Define and populate the movies array with necessary movie data
+  updateFavoritesSection();
+});
 
 // Creates an iframe element for embedding YouTube videos
 function createIframe(video) {
