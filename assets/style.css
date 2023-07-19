@@ -41,6 +41,9 @@ nav {
 	visibility: visible;
 }
 
+#hero {
+	background-image: url('../images/movie-mate.webp');
+}
 
 /* movie section styles */
 h2 {
@@ -124,7 +127,7 @@ h2 {
 	margin: 10px;
 	width: 180%;
 	overflow-x: scroll;
-	translate: -244px;
+	transform:  translate(-244px);
 	scroll-behavior: smooth;
 }
 
